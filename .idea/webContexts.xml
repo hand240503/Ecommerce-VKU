@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebContextManager">
+    <option name="state">
+      <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/common/web/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/common/web" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/identify/forgotPassword.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/identify" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/signup.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/web/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/web" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/web/store.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/web" />
+      </map>
+    </option>
+  </component>
+</project>
