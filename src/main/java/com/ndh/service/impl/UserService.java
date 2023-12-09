@@ -78,12 +78,14 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public List<UserModel> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
 
 
     @Override
     public void addOTP(Long id, String otp, int status) {
         userDAO.addOTP(id, otp, status);
     }
-
 
 }

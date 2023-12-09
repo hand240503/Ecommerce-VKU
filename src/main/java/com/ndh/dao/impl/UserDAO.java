@@ -57,7 +57,13 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO {
         String sql = "UPDATE ta_aut_user\n" +
                 "SET T_PASSWORD= ? , T_HASHED_PASSWORD = ? \n" +
                 "WHERE I_ID = ?;";
-        update(sql,password,Hash,id);
+        update(sql, password, Hash, id);
     }
 
+    @Override
+    public List<UserModel> getAllUsers() {
+        String sql = "SELECT I_ID, T_USERNAME, T_PASSWORD, I_ROLE, T_EMAIL, T_FIST_NAME, T_LAST_NAME, T_TELEPHONE, I_STATUS, D_CREATED_AT, D_MODIFIED_AT\n" +
+                "FROM ecommerce_vku.ta_aut_user;";
+        return query(sql, new UserMapper());
+    }
 }
