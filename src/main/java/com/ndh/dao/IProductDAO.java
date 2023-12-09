@@ -23,4 +23,6 @@ public interface IProductDAO extends GenericDAO<ProductModel> {
 
     List<ProductModel> getProductToCart(String params);
 
+    List<ProductModel> getProductAdmin();
+
 }

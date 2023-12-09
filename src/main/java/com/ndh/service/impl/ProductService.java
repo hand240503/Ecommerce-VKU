@@ -73,6 +73,10 @@ public class ProductService implements IProductService {
         return productDAO.getProductToCart(param);
     }
 
+    @Override
+    public List<ProductModel> getProductAdmin() {
+        return productDAO.getProductAdmin();
+    }
 
 
 }

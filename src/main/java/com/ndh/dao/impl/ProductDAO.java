@@ -9,7 +9,7 @@ import com.ndh.mapper.ProductMapper;
 import com.ndh.model.ProductModel;
 import com.ndh.paging.Pageble;
 
-public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO {
+public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO{
 
     @Override
     public Long save(ProductModel model) {
@@ -124,6 +124,16 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
                 "\tINNER JOIN ta_aut_unit \t\t\t\tAS\t\tunit\t\tON \tprice.I_ID_UNIT \t= unit.I_ID \n" +
                 "\tINNER JOIN ta_aut_product_images   \tAS   \timage       ON  image.I_ID_PRODUCT  = product.I_ID\n" +
                 "WHERE product.I_ID IN( " + params + " )";
+        return query(sql,new ProductMapper());
+    }
+
+    @Override
+    public List<ProductModel> getProductAdmin() {
+        String sql = "SELECT product.I_ID , product.T_NAME_PRODUCT, product.T_DESCRIPTION  , price.F_CURRENT_VALUE , unit.T_UNIT_NAME , unit.I_RATIO  ,category.T_CATEGORY_NAME, category.T_CATEGORY_CODE , product.I_TYPE_01 , product.I_TYPE_02 , product.I_TYPE_03 , product.I_TYPE_04  \n" +
+                "FROM ta_aut_product AS product\n" +
+                "\tINNER JOIN \tta_aut_price \t\t\tAS price \tON \tprice.I_ID_PRODUCT \t\t= \tproduct.I_ID \n" +
+                "\tINNER JOIN \tta_aut_unit \t\t\tAS unit\t\tON \tunit.I_ID  \t\t\t\t=\tprice.I_ID_UNIT  \n" +
+                "\tINNER JOIN ta_aut_category \t\t\tAS category ON \tcategory .I_ID \t\t\t=\tproduct.I_ID_CATEGORY";
         return query(sql,new ProductMapper());
     }
 

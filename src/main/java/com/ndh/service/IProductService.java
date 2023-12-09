@@ -25,4 +25,7 @@ public interface IProductService {
 	List<ProductModel> searchProducts(String params);
 
 	List<ProductModel> getCartProducts(List<Integer> productIds);
+
+	List<ProductModel> getProductAdmin();
+
 }

@@ -13,11 +13,11 @@ public class CategoryMapper implements RowMapper<CategoryModel> {
 		try {
 			CategoryModel categoryModel = new CategoryModel();
 			try {
-				categoryModel.setId(resultSet.getLong("I_ID"));
+				categoryModel.setId(resultSet.getLong(CategoryConstant.I_ID));
 			} catch (Exception e) {
 			}
 
-			categoryModel.setCategoryName(resultSet.getString(CategoryConstant.T_CATEGORY_NAME));
+            categoryModel.setCategoryName(resultSet.getString(CategoryConstant.T_CATEGORY_NAME));
 			categoryModel.setCategoryCode(resultSet.getString(CategoryConstant.T_CATEGORY_CODE));
 
 			return categoryModel;
