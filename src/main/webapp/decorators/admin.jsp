@@ -6,7 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body id="page-top">
+    <div id="wrapper">
 
+    </div>
 </body>
 </html>
