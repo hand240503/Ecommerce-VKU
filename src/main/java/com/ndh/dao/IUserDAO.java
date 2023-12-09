@@ -20,6 +20,5 @@ public interface IUserDAO {
 
     void updatePassword(int id,String password, String Hash);
 
-    List<UserModel> getUserAdmin();
 
 }

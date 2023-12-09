@@ -60,9 +60,4 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO {
         update(sql,password,Hash,id);
     }
 
-    public List<UserModel> getUserAdmin() {
-        String sql = "SELECT I_ID, T_USERNAME, I_ROLE, T_EMAIL, T_FIST_NAME, T_LAST_NAME, T_TELEPHONE, I_STATUS\n" +
-                "FROM ecommerce_vku.ta_aut_user;";
-        return query(sql, new UserMapper());
-    }
 }

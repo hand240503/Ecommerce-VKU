@@ -22,6 +22,6 @@ public interface IUserService {
 
     void updatePassword(int id, String password, String hash);
 
-    List<UserModel> getUserAdmin();
+
 
 }

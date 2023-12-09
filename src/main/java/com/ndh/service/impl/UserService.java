@@ -78,9 +78,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserModel> getUserAdmin() {
-        return userDAO.getUserAdmin();
-    }
+
 
     @Override
     public void addOTP(Long id, String otp, int status) {
