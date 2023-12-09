@@ -9,6 +9,7 @@ import com.ndh.service.IUserService;
 import javax.inject.Inject;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 public class UserService implements IUserService {
     @Inject
@@ -74,6 +75,11 @@ public class UserService implements IUserService {
     @Override
     public void updatePassword(int id, String password, String hash) {
         userDAO.updatePassword(id, password, hash);
+    }
+
+    @Override
+    public List<UserModel> getUserAdmin() {
+        return userDAO.getUserAdmin();
     }
 
     @Override
