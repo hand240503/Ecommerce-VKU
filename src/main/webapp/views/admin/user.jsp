@@ -6,9 +6,7 @@
     </div>
 
     <div class="card-body">
-
         <div class="table-responsive">
-
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
                 <thead>
@@ -17,8 +15,8 @@
                     <th>Username</th>
                     <th>Role</th>
                     <th>Email</th>
-                    <th>First Name</th>
                     <th>Last Name</th>
+                    <th>First Name</th>
                     <th>Telephone</th>
                     <th>Status</th>
                 </tr>
@@ -29,12 +27,13 @@
                         <td>${item.userName}</td>
                         <td>${item.role}</td>
                         <td>${item.email}</td>
-                        <td>${item.firstName}</td>
                         <td>${item.lastName}</td>
+                        <td>${item.firstName}</td>
                         <td>${item.phoneNumber}</td>
                         <td>${item.status}</td>
                     </tr>
                 </c:forEach>
+
             </table>
         </div>
     </div>
