@@ -14,7 +14,6 @@ public class AuthorizationFilter implements Filter {
         this.context = filterConfig.getServletContext();
     }
 
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -36,23 +35,19 @@ public class AuthorizationFilter implements Filter {
 
             JwtService jwtService = new JwtService();
 
-            if (token != null) {
-                if (jwtService.validateTokenLogin(token)) {
-                    int role = jwtService.getROLEFromToken(token);
+            if (token != null && jwtService.validateTokenLogin(token)) {
+                int role = jwtService.getROLEFromToken(token);
 
-                    if (role == 1) {
-                        chain.doFilter(request, response);
-                        return;
-                    } else if (role == 2) {
-                        response.sendRedirect(request.getContextPath() + "/trang-chu");
-                        return;
-                    }
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/account?action=login");
+                if (role == 1) {
+                    chain.doFilter(request, response);
+                    return;
+                } else if (role == 2) {
+                    response.sendRedirect(request.getContextPath() + "/trang-chu");
+                    return;
                 }
-            } else {
-                response.sendRedirect(request.getContextPath() + "/account?action=login");
             }
+            response.sendRedirect(request.getContextPath() + "/account?action=login");
+            return;
         }
 
         chain.doFilter(request, response);

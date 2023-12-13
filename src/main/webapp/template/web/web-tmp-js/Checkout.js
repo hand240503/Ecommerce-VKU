@@ -128,8 +128,9 @@ $('.btn-order-product').on('click', async function (e) {
                         result.forEach(item => {
                             removeProduct(item.id);
                         });
-                        window.location.href = '/Ecommerce/trang-chu';
-                    }
+                        setTimeout(() => {
+                            window.location.href = '/Ecommerce/trang-chu';
+                        }, 2000);                    }
                 },
                 error: function (error) {
                     console.error('Error:', error);
