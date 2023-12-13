@@ -16,11 +16,13 @@ public interface IUserService {
     boolean isActive(UserModel userModel);
 
 
-
     void addUser(UserModel userModel);
 
     void addOTP(Long id, String otp, int status);
 
     void updatePassword(int id, String password, String hash);
+
+
+    List<UserModel> getAllUsers();
 
 }
