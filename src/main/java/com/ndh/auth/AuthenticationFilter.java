@@ -38,7 +38,7 @@ public class AuthenticationFilter implements Filter {
 
             chain.doFilter(request, response);
         } else {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/account?action=login");
         }
     }
 }

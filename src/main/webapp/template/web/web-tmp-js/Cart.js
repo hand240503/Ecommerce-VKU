@@ -1,3 +1,10 @@
+function getDecodedCookie(name) {
+    const encodedValue = getCookie(name);
+    if (encodedValue !== null) {
+        return atob(encodedValue);
+    }
+    return null;
+}
 
 function getCookie(name) {
     const cookies = document.cookie.split(';');
@@ -10,22 +17,27 @@ function getCookie(name) {
     return null;
 }
 
-// Định nghĩa hàm để đặt cookies
 function setCookie(name, value, days) {
+    value = validateAndClean(value);
+    const encodedValue = btoa(value);
+
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + days);
-    const cookieString = `${name}=${value}; expires=${expirationDate.toUTCString()}; path=/`;
+
+    const cookieString = `${name}=${encodedValue}; expires=${expirationDate.toUTCString()}; path=/`;
+
     document.cookie = cookieString;
 }
 
+
 $(document).ready(function () {
-    const dataCart = JSON.parse(getCookie('cart')) || {};
+    const dataCart = JSON.parse(getDecodedCookie('cart')) || {};
     let cartCount = $('.cart-count');
     if (Object.keys(dataCart).length !== 0) {
-        cartCount.text(Object.keys(dataCart).length);
+        cartCount.text(getTotalQuantity(dataCart));
         loadCartAndRunAjax();
     } else {
-        cartCount.text(0);
+        cartCount.text(getTotalQuantity(dataCart));
         renderTotalCart();
     }
 });
@@ -44,48 +56,97 @@ function totalPrice(data) {
 }
 
 function loadCartAndRunAjax() {
-    let dataCart = JSON.parse(getCookie('cart')) || {};
-    let cartArray = Object.keys(dataCart);
+    let dataCart = JSON.parse(getDecodedCookie('cart')) || {};
+    let listIds = [];
+
+    for (let userId in dataCart) {
+        if (dataCart.hasOwnProperty(userId)) {
+            let userCart = dataCart[userId].cartItems;
+            listIds = listIds.concat(userCart.map(item => item.id));
+        }
+    }
 
     $.ajax({
         url: '/Ecommerce/api/cart',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(cartArray),
+        data: JSON.stringify(listIds),
         dataType: 'json',
         success: function (response) {
-            let data = response.map(item => ({
-                id: item.id,
-                nameProduct: item.nameProduct,
-                description: item.description,
-                pathImageProduct: item.imageModel.pathImageProduct,
-                productPrice: item.priceModel.productPrice,
-                quantity: dataCart[item.id] ? dataCart[item.id].quantity : 0,
-                totalPrice: item.priceModel.productPrice * (dataCart[item.id] ? dataCart[item.id].quantity : 0)
-            }));
+            let data = response.map(item => {
+                let quantity = getQuantityByProductId(item.id, dataCart);
 
-            console.log(data);
-
+                return {
+                    id: item.id,
+                    nameProduct: item.nameProduct,
+                    description: item.description,
+                    pathImageProduct: item.imageModel.pathImageProduct,
+                    productPrice: item.priceModel.productPrice,
+                    quantity: quantity,
+                    totalPrice: item.priceModel.productPrice * quantity,
+                };
+            });
             renderCart(data);
         },
         error: function (error) {
             console.error('Error:', error);
         }
     });
+
+
 }
 
-function addToCartAndRunAjax(productId) {
-    let cart = JSON.parse(getCookie('cart')) || {};
-    const cartCount = $('.cart-count');
-    let cartItem = {
-        id: productId, quantity: 1,
-    };
-    if (cart[cartItem.id]) {
-        cart[cartItem.id].quantity += cartItem.quantity;
-    } else {
-        cart[cartItem.id] = cartItem;
-        cartCount.text(Object.keys(cart).length);
+function getUserIdByProductId(productId, dataCart) {
+    for (let userId in dataCart) {
+        if (dataCart.hasOwnProperty(userId)) {
+            let userCart = dataCart[userId].cartItems;
+            if (userCart.some(item => item.id === productId)) {
+                return userId;
+            }
+        }
     }
+    return null;
+}
+
+function getQuantityByProductId(productId, dataCart) {
+    for (let userId in dataCart) {
+        if (dataCart.hasOwnProperty(userId)) {
+            let userCart = dataCart[userId].cartItems;
+            let item = userCart.find(item => item.id === productId);
+            if (item) {
+                return item.quantity;
+            }
+        }
+    }
+    return 0;
+}
+
+function addToCartAndRunAjax(productId, userId) {
+    let dataCart = JSON.parse(getDecodedCookie('cart')) || {};
+    const cartCount = $('.cart-count');
+    userId = userId || 0;
+
+    if (!dataCart[userId]) {
+        dataCart[userId] = {
+            userId: userId,
+            cartItems: []
+        };
+    }
+
+    const userCart = dataCart[userId].cartItems;
+    const existingCartItem = userCart.find(item => item.id === productId);
+
+    if (existingCartItem) {
+        existingCartItem.quantity += 1;
+        cartCount.text(getTotalQuantity(dataCart));
+    } else {
+        userCart.push({
+            id: productId,
+            quantity: 1
+        });
+        cartCount.text(getTotalQuantity(dataCart));
+    }
+
     $.toast({
         heading: 'Success',
         text: 'Thêm sản phẩm thành công.',
@@ -93,9 +154,11 @@ function addToCartAndRunAjax(productId) {
         icon: 'success',
         position: 'bottom-right'
     });
-    setCookie('cart', JSON.stringify(cart), 30); // 30 days expiration
+
+    setCookie('cart', JSON.stringify(dataCart), 30);
     loadCartAndRunAjax();
 }
+
 
 let renderCart = (data) => {
     const productContainer = $('#cartContainer');
@@ -128,7 +191,7 @@ let renderCart = (data) => {
                                             alt="product">
                                     </a>
                                 </figure>
-                                <a href="#" class="btn-remove" title="Remove Product" onclick="remove(${item.id})" ><i
+                                <a href="#" class="btn-remove btn-remove-cart" title="Remove Product" data-id="${item.id}" onclick="remove(${item.id})" ><i
                                         class="icon-close"></i></a>
                             </div>
                         </div>`;
@@ -138,29 +201,67 @@ let renderCart = (data) => {
 
         totalCart += `
                         <div class="dropdown-cart-total">
-                            <span>Total</span> <span class="cart-total-price">${totalPrice(data).toLocaleString()}</span>
+                            <span>Total</span> <span class="cart-total-price">$${totalPrice(data).toLocaleString()}</span>
                         </div>
                         <div class="dropdown-cart-action">
-                            <a href="cart.html" class="btn btn-primary">View Cart</a> <a
-                                href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i
-                                class="icon-long-arrow-right"></i></a>
+                            <a href="/Ecommerce/cart" class="btn btn-primary">View Cart</a> 
                         </div>
                         `;
         totalContainer.html(totalCart);
     }
 }
 
+function getTotalQuantity(dataCart) {
+    let totalQuantity = 0;
+
+    for (let userId in dataCart) {
+        if (dataCart.hasOwnProperty(userId)) {
+            let userCart = dataCart[userId].cartItems;
+
+            if (userCart && userCart.length > 0) {
+                totalQuantity += userCart.reduce((acc, item) => acc + item.quantity, 0);
+            }
+        }
+    }
+
+    return totalQuantity;
+}
+
 let remove = (id) => {
-    const dataCart = JSON.parse(getCookie('cart')) || {};
+    const dataCart = JSON.parse(getDecodedCookie('cart')) || {};
     const cartCount = $('.cart-count');
 
-    if (id in dataCart) {
-        delete dataCart[id];
-        setCookie('cart', JSON.stringify(dataCart), 30); // 30 days expiration
-        loadCartAndRunAjax();
-        cartCount.text(Object.keys(dataCart).length);
+    for (let userId in dataCart) {
+        if (dataCart.hasOwnProperty(userId)) {
+            let userCart = dataCart[userId].cartItems;
+            let indexToRemove = userCart.findIndex(item => item.id === id);
+
+            if (indexToRemove !== -1) {
+                userCart.splice(indexToRemove, 1);
+
+                if (userCart.length === 0) {
+
+                    delete dataCart[userId];
+                }
+
+                setCookie('cart', JSON.stringify(dataCart), 30);
+                loadCartAndRunAjax();
+                cartCount.text(getTotalQuantity(dataCart));
+
+                $.toast({
+                    heading: 'Success',
+                    text: 'Xóa sản phẩm thành công.',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    position: 'bottom-right'
+                });
+
+                return;
+            }
+        }
     }
 }
+
 
 let renderTotalCart = () => {
     const totalContainer = $('#total-cart');
@@ -169,10 +270,25 @@ let renderTotalCart = () => {
                             <span>Total</span> <span class="cart-total-price">0</span>
                         </div>
                         <div class="dropdown-cart-action">
-                            <a href="cart.html" class="btn btn-primary">View Cart</a> <a
-                                href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i
-                                class="icon-long-arrow-right"></i></a>
+                            <a href="/Ecommerce/cart" class="btn btn-primary">View Cart</a>
                         </div>`;
     totalContainer.html(totalCart);
 
 }
+
+function validateAndClean(jsonStr) {
+
+    const data = JSON.parse(jsonStr);
+
+    for (const userId in data) {
+        if (data[userId].hasOwnProperty('cartItems')) {
+            data[userId].cartItems = data[userId].cartItems.filter(item =>
+                item.hasOwnProperty('id') && item.hasOwnProperty('quantity')
+            );
+        }
+    }
+    const cleanedJson = JSON.stringify(data);
+    return cleanedJson;
+}
+
+

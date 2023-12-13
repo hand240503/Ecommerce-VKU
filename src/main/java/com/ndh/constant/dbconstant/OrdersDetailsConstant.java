@@ -1,4 +1,4 @@
-package com.ndh.dbconstant;
+package com.ndh.constant.dbconstant;
 
 public class OrdersDetailsConstant {
     public static final String I_ID                 = "I_ID";

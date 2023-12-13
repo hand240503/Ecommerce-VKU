@@ -27,7 +27,7 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO {
 
     @Override
     public UserModel findOneById(Long id) {
-        String sql = "SELECT tuser.I_ID ,tuser.T_USERNAME , tuser.I_ROLE , tuser.I_STATUS , tuser.T_FIST_NAME , tuser.T_LAST_NAME , tuser.T_EMAIL  \n" +
+        String sql = "SELECT tuser.I_ID ,tuser.T_USERNAME , tuser.I_ROLE , tuser.I_STATUS , tuser.T_FIST_NAME , tuser.T_LAST_NAME , tuser.T_EMAIL , tuser.T_TELEPHONE  \n" +
                 "FROM ta_aut_user tuser\n" +
                 "WHERE tuser.I_ID = ?;";
         List<UserModel> userModels = query(sql, new UserMapper(), id);
@@ -57,6 +57,7 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO {
         String sql = "UPDATE ta_aut_user\n" +
                 "SET T_PASSWORD= ? , T_HASHED_PASSWORD = ? \n" +
                 "WHERE I_ID = ?;";
-        update(sql,password,Hash,id);
+        update(sql, password, Hash, id);
     }
+
 }

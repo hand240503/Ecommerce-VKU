@@ -27,7 +27,7 @@ public class HttpUtil {
         try {
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(sb.append(line));
+                sb.append(line);
             }
         } catch (IOException e) {
             System.out.print(e.getMessage());

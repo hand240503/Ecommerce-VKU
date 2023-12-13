@@ -1,9 +1,9 @@
 package com.ndh.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +11,11 @@ import java.util.List;
 @Setter
 public class AbstractModel<T> {
 
-	private Long id;
-	private String sortName;
-	private String sortBy;
-	private List<T> listResult = new ArrayList<>();
+    private Long id;
+    private String sortName;
+    private String sortBy;
+    private List<T> listResult = new ArrayList<>();
+    private Timestamp createdDate;
+    private Timestamp modifiedDate;
 
 }

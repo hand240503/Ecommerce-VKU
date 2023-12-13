@@ -3,10 +3,10 @@ package com.ndh.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.ndh.dbconstant.CategoryConstant;
-import com.ndh.dbconstant.ImageConstant;
-import com.ndh.dbconstant.ProductConstant;
-import com.ndh.dbconstant.UnitConstant;
+import com.ndh.constant.dbconstant.CategoryConstant;
+import com.ndh.constant.dbconstant.ImageConstant;
+import com.ndh.constant.dbconstant.ProductConstant;
+import com.ndh.constant.dbconstant.UnitConstant;
 import com.ndh.model.*;
 
 public class ProductMapper implements RowMapper<ProductModel> {

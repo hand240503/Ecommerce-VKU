@@ -2,7 +2,6 @@ package com.ndh.controller.web;
 
 import com.ndh.auth.JwtService;
 import com.ndh.constant.SystemConstant;
-import com.ndh.dbconstant.ProductConstant;
 import com.ndh.model.CategoryModel;
 import com.ndh.model.UserModel;
 import com.ndh.service.ICategoryService;

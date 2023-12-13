@@ -2,6 +2,8 @@ package com.ndh.service;
 
 import com.ndh.model.UserModel;
 
+import java.util.List;
+
 public interface IUserService {
     UserModel findOneByUsername(String userName);
 

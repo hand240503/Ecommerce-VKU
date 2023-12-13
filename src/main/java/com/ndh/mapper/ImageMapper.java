@@ -2,7 +2,7 @@ package com.ndh.mapper;
 
 import java.sql.ResultSet;
 
-import com.ndh.dbconstant.ImageConstant;
+import com.ndh.constant.dbconstant.ImageConstant;
 import com.ndh.model.ImageModel;
 
 public class ImageMapper implements RowMapper<ImageModel> {

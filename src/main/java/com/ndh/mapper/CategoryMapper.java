@@ -3,7 +3,7 @@ package com.ndh.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.ndh.dbconstant.CategoryConstant;
+import com.ndh.constant.dbconstant.CategoryConstant;
 import com.ndh.model.CategoryModel;
 
 public class CategoryMapper implements RowMapper<CategoryModel> {

@@ -1,12 +1,6 @@
 package com.ndh.mapper;
 
-import com.ndh.dbconstant.CategoryConstant;
-import com.ndh.dbconstant.ImageConstant;
-import com.ndh.dbconstant.ProductConstant;
-import com.ndh.dbconstant.UserConstant;
-import com.ndh.model.CategoryModel;
-import com.ndh.model.ImageModel;
-import com.ndh.model.PriceModel;
+import com.ndh.constant.dbconstant.UserConstant;
 import com.ndh.model.UserModel;
 
 import java.sql.ResultSet;

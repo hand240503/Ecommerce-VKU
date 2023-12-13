@@ -9,6 +9,7 @@ import com.ndh.service.IUserService;
 import javax.inject.Inject;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 public class UserService implements IUserService {
     @Inject
@@ -80,6 +81,7 @@ public class UserService implements IUserService {
     public void addOTP(Long id, String otp, int status) {
         userDAO.addOTP(id, otp, status);
     }
+
 
 
 }

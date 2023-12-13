@@ -58,8 +58,7 @@
 						<!-- End .details-filter-row -->
 
 						<div class="product-details-action">
-							<a href="#" class="btn-product btn-cart btn-addToCart" data-id="${product.id}"><span>add to
-									cart</span></a>
+							<button class="btn btn-primary btn-addToCart" type="submit" data-id="${product.id}" >ADD TO CART</button>
 						</div>
 						<!-- End .product-details-action -->
 

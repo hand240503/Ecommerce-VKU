@@ -1,9 +1,7 @@
 package com.ndh.mapper;
 
-import com.ndh.dbconstant.BrandConstant;
-import com.ndh.dbconstant.CategoryConstant;
+import com.ndh.constant.dbconstant.BrandConstant;
 import com.ndh.model.BrandModel;
-import com.ndh.model.CategoryModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

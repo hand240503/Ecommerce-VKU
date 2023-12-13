@@ -75,7 +75,7 @@
             </div>
 
             <div class="header-right">
-                <div class="dropdown cart-dropdown">
+                <div class="dropdown cart-dropdown" id="cart-dropdown">
                     <a href="#" class="dropdown-toggle" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        data-display="static">
