@@ -78,5 +78,8 @@ public class ProductService implements IProductService {
         return productDAO.getProductAdmin();
     }
 
-
+    @Override
+    public int countProducts() {
+        return productDAO.countProduct();
+    }
 }
