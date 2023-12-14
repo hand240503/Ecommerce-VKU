@@ -181,8 +181,8 @@
             visiblePages: totalPage,
             startPage: currentPage,
             onPageClick: function (event, page) {
-                $('#page').val(page);
                 event.preventDefault();
+                $('#page').val(page);
                 var data = {};
                 const sort = $('#sort').val();
 

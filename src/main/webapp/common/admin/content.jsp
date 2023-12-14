@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
                 <a class="collapse-item" href="login.html">Orders</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">Product</h6>
-                <a class="collapse-item" href="<c:url value="/admin-products"/>">List Product</a>
+                <a class="collapse-item" href="<c:url value="/admin-products?page=1"/>">List Product</a>
                 <a class="collapse-item" href="404.html">Add Product</a>
             </div>
         </div>

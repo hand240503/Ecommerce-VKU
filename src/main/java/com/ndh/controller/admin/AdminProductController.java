@@ -2,6 +2,7 @@ package com.ndh.controller.admin;
 
 import com.ndh.constant.SystemConstant;
 import com.ndh.model.PageModel;
+import com.ndh.paging.PageRequest;
 import com.ndh.paging.Pageble;
 import com.ndh.service.IProductService;
 
@@ -36,10 +37,17 @@ public class AdminProductController extends HttpServlet {
             }
         }
         PageModel pageModel = new PageModel();
+        pageModel.setPage(page);
+        pageModel.setMaxPageItem(10);
+        pageModel.setTotalItem(productService.countProducts());
+
+        pageModel.setTotalPage((int) Math.ceil((double) pageModel.getTotalItem() / pageModel.getMaxPageItem()));
+
+        Pageble pageble = new PageRequest(pageModel.getPage(), pageModel.getMaxPageItem(), null, null);
 
 
-        req.setAttribute(SystemConstant.PRODUCT, productService.getProductAdmin());
-
+        req.setAttribute(SystemConstant.PRODUCT, productService.findByCategoryCode(pageble));
+        req.setAttribute("pageModel", pageModel);
         req.getRequestDispatcher("views/admin/product.jsp").forward(req, resp);
     }
 }

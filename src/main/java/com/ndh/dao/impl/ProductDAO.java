@@ -47,21 +47,28 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 
     @Override
     public List<ProductModel> findByCategoryCode(Pageble pageble) {
-        String sql = "SELECT product.I_ID , product.T_NAME_PRODUCT , product.T_DESCRIPTION , image.T_URL_IMAGE , image.T_DESCRIPTION , price.F_CURRENT_VALUE , unit.T_UNIT_NAME , category.T_CATEGORY_CODE , category.T_CATEGORY_NAME , product.I_TYPE_01 , product.I_TYPE_02 , product.I_TYPE_03 , product.I_TYPE_04 \n" +
-                "FROM ta_aut_product AS product\n" +
-                "\tINNER JOIN ta_aut_category \t\t\tAS \t\tcategory \tON \tcategory.I_ID \t\t= product.I_ID_CATEGORY \n" +
-                "\tINNER JOIN ta_aut_price \t\t\tAS\t \tprice \t\tON \tprice.I_ID_PRODUCT  = product.I_ID \n" +
-                "\tINNER JOIN ta_aut_unit \t\t\t\tAS\t\tunit\t\tON \tprice.I_ID_UNIT \t= unit.I_ID \n" +
-                "\tINNER JOIN ta_aut_product_images   \tAS   \timage       ON  image.I_ID_PRODUCT  = product.I_ID \n" +
-                "\tINNER JOIN ta_aut_brand \t\t\tAS \t\tbrand\t\tON \tbrand.I_ID \t\t\t= product.I_ID_BRAND \n" +
-                "WHERE category.T_CATEGORY_CODE = ?";
+        String sql = "SELECT product.I_ID, product.T_NAME_PRODUCT, product.T_DESCRIPTION, image.T_URL_IMAGE, image.T_DESCRIPTION, price.F_CURRENT_VALUE, unit.T_UNIT_NAME, category.T_CATEGORY_CODE, category.T_CATEGORY_NAME, product.I_TYPE_01, product.I_TYPE_02, product.I_TYPE_03, product.I_TYPE_04 " +
+                "FROM ta_aut_product AS product " +
+                "INNER JOIN ta_aut_category AS category ON category.I_ID = product.I_ID_CATEGORY " +
+                "INNER JOIN ta_aut_price AS price ON price.I_ID_PRODUCT = product.I_ID " +
+                "INNER JOIN ta_aut_unit AS unit ON price.I_ID_UNIT = unit.I_ID " +
+                "INNER JOIN ta_aut_product_images AS image ON image.I_ID_PRODUCT = product.I_ID " +
+                "INNER JOIN ta_aut_brand AS brand ON brand.I_ID = product.I_ID_BRAND ";
 
-        if (pageble.getSorter().getBrand() != null && !pageble.getSorter().getBrand().isEmpty()) {
-            sql += " AND brand.T_CODE IN (";
+        if (isNotBlank(pageble.getCode())) {
+            sql += "WHERE category.T_CATEGORY_CODE = ?";
+        }
+
+        if (pageble.getSorter() != null && pageble.getSorter().getBrand() != null && !pageble.getSorter().getBrand().isEmpty()) {
+            if (isNotBlank(pageble.getCode())) {
+                sql += " AND ";
+            } else {
+                sql += " WHERE ";
+            }
+            sql += "brand.T_CODE IN (";
             for (String brand : pageble.getSorter().getBrand()) {
                 sql += "'" + brand + "', ";
             }
-
             sql = sql.substring(0, sql.length() - 2) + ")";
         }
 
@@ -70,13 +77,16 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
         }
 
         if (pageble.getOffset() != null && pageble.getLimit() != null) {
-            sql += "\n LIMIT " + pageble.getOffset() + " , " + pageble.getLimit();
+            sql += "\n LIMIT " + pageble.getOffset() + ", " + pageble.getLimit();
         }
 
-
-        return query(sql, new ProductMapper(), pageble.getCode());
-
+        if (isNotBlank(pageble.getCode())) {
+            return query(sql, new ProductMapper(), pageble.getCode());
+        } else {
+            return query(sql, new ProductMapper());
+        }
     }
+
 
 
     @Override
