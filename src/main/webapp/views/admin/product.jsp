@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="card-body">
+    <div class="card-body" style="height: 784px">
 
         <div class="table-responsive">
 
@@ -49,12 +49,13 @@
                 </tbody>
             </table>
         </div>
-        <ul class="pagination justify-content-center" id="pagination"></ul>
-        <input type="hidden" value="" id="page" name="page"> <input
-            type="hidden" value="" id="maxPageItem" name="maxPageItem">
-        <input type="hidden" value="" id="code" name="code">
-        <input type="hidden" value="" id="sort" name="sort"/>
+
     </div>
+    <ul class="pagination justify-content-center" id="pagination"></ul>
+    <input type="hidden" value="" id="page" name="page"> <input
+        type="hidden" value="" id="maxPageItem" name="maxPageItem">
+    <input type="hidden" value="" id="code" name="code">
+    <input type="hidden" value="" id="sort" name="sort"/>
 </div>
 
 <script>
