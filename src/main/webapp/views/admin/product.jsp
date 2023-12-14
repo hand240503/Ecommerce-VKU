@@ -39,10 +39,10 @@
                     <tr>
                         <td>${item.id}</td>
                         <td>${item.nameProduct}</td>
-                        <td>${item.priceModel.productPrice}</td>
+                        <td class="text-right">${item.priceModel.productPrice}</td>
                         <td>${item.category.categoryName}</td>
-                        <td><a class="btn btn-info" href="#" role="button">Update</a></td>
-                        <td><a class="btn btn-danger" href="#" role="button">Delete</a></td>
+                        <td class="text-center"><a class="btn btn-info" href="#" role="button">Update</a></td>
+                        <td class="text-center"><a class="btn btn-danger" href="#" role="button">Delete</a></td>
 
                     </tr>
                 </c:forEach>
