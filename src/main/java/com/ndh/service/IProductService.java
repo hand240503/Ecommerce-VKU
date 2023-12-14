@@ -28,6 +28,7 @@ public interface IProductService {
 
 	List<ProductModel> getProductAdmin();
 
+	int countProducts();
 
 
 }

@@ -25,4 +25,6 @@ public interface IProductDAO extends GenericDAO<ProductModel> {
 
     List<ProductModel> getProductAdmin();
 
+    int countProduct();
+
 }
