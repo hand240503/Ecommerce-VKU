@@ -229,14 +229,6 @@
                                 <!-- End .product-title -->
                                 <div class="product-price">$${item.priceModel.productPrice}</div>
                                 <!-- End .product-price -->
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 100%;"></div>
-                                        <!-- End .ratings-val -->
-                                    </div>
-
-                                    <span class="ratings-text">( 4 Reviews )</span>
-                                </div>
                             </div>
                         </div>
                     </c:if>
@@ -357,14 +349,6 @@
                                                 <!-- End .product-title -->
                                                 <div class="product-price">$${item.priceModel.productPrice}</div>
                                                 <!-- End .product-price -->
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 60%;"></div>
-                                                        <!-- End .ratings-val -->
-                                                    </div>
-                                                    <!-- End .ratings -->
-                                                    <span class="ratings-text">( 2 Reviews )</span>
-                                                </div>
                                                 <!-- End .rating-container -->
                                             </div>
                                             <!-- End .product-body -->
@@ -454,14 +438,6 @@
                                     <!-- End .product-title -->
                                     <div class="product-price">$${item.priceModel.productPrice}</div>
                                     <!-- End .product-price -->
-                                    <div class="ratings-container">
-                                        <div class="ratings">
-                                            <div class="ratings-val" style="width: 100%;"></div>
-                                            <!-- End .ratings-val -->
-                                        </div>
-
-                                        <span class="ratings-text">( 4 Reviews )</span>
-                                    </div>
                                 </div>
                             </div>
                         </c:if>
@@ -539,14 +515,6 @@
                                     <!-- End .product-title -->
                                     <div class="product-price">$${item.priceModel.productPrice}</div>
                                     <!-- End .product-price -->
-                                    <div class="ratings-container">
-                                        <div class="ratings">
-                                            <div class="ratings-val" style="width: 100%;"></div>
-                                            <!-- End .ratings-val -->
-                                        </div>
-
-                                        <span class="ratings-text">( 4 Reviews )</span>
-                                    </div>
                                 </div>
                             </div>
                         </c:if>
@@ -623,14 +591,6 @@
                                     <!-- End .product-title -->
                                     <div class="product-price">$${item.priceModel.productPrice}</div>
                                     <!-- End .product-price -->
-                                    <div class="ratings-container">
-                                        <div class="ratings">
-                                            <div class="ratings-val" style="width: 100%;"></div>
-                                            <!-- End .ratings-val -->
-                                        </div>
-
-                                        <span class="ratings-text">( 4 Reviews )</span>
-                                    </div>
                                 </div>
                             </div>
                         </c:if>
@@ -708,15 +668,6 @@
                                 </h3>
                                 <!-- End .product-title -->
                                 <div class="product-price">$${item.priceModel.productPrice}</div>
-                                <!-- End .product-price -->
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 100%;"></div>
-                                        <!-- End .ratings-val -->
-                                    </div>
-
-                                    <span class="ratings-text">( 4 Reviews )</span>
-                                </div>
                             </div>
                         </div>
                     </c:if>
@@ -772,15 +723,6 @@
                             </h3>
                             <!-- End .product-title -->
                             <div class="product-price">$${item.priceModel.productPrice}</div>
-                            <!-- End .product-price -->
-                            <div class="ratings-container">
-                                <div class="ratings">
-                                    <div class="ratings-val" style="width: 60%;"></div>
-                                    <!-- End .ratings-val -->
-                                </div>
-                                <!-- End .ratings -->
-                                <span class="ratings-text">( 2 Reviews )</span>
-                            </div>
                             <!-- End .rating-container -->
                         </div>
                         <!-- End .product-body -->

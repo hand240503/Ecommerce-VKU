@@ -42,12 +42,3 @@
         </div>
     </div>
 </div>
-<script>
-  $(document).ready(function() {
-
-      $(".btn-accept").click(function() {
-         let id = $(this).data('id');
-
-      });
-  });
-</script

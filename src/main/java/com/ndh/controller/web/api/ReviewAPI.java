@@ -1,8 +1,10 @@
-package com.ndh.controller.admin;
+package com.ndh.controller.web.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ndh.auth.JwtService;
-import com.ndh.model.UserModel;
-import com.ndh.service.IUserService;
+import com.ndh.model.ReviewModel;
+import com.ndh.service.IReviewService;
+import com.ndh.utils.HttpUtil;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -13,15 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/admin-home")
-public class AdminHomeController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+@WebServlet("/api/reviews")
+public class ReviewAPI extends HttpServlet {
 
     @Inject
-    private IUserService userService;
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private IReviewService reviewService;
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        ReviewModel reviewModel = HttpUtil.of(req.getReader()).toModel(ReviewModel.class);
         String token = null;
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {
@@ -34,13 +37,10 @@ public class AdminHomeController extends HttpServlet {
         }
         JwtService jwtService = new JwtService();
         if (token != null && jwtService.validateTokenLogin(token)) {
-
-            UserModel userModel = userService.findOneById(jwtService.getIDFromToken(token));
-            if (userModel != null) {
-                req.setAttribute("user", userModel);
-            }
-
+            Long id = jwtService.getIDFromToken(token);
+            reviewService.save(reviewModel, id, reviewModel.getIdProduct());
+        } else {
+            mapper.writeValue(resp.getOutputStream(), false);
         }
-        req.getRequestDispatcher("views/admin/home.jsp").forward(req, resp);
     }
 }
