@@ -1,6 +1,7 @@
 package com.ndh.dao;
 
 import com.ndh.model.OrderModel;
+
 import java.util.List;
 
 public interface IOrderDAO extends GenericDAO<OrderModel> {
@@ -11,4 +12,6 @@ public interface IOrderDAO extends GenericDAO<OrderModel> {
     List<OrderModel> getUnconfimrOrders();
 
     List<OrderModel> getConfirmOrders();
+
+    void updateStatusOrders(Long id);
 }

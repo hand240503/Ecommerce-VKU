@@ -72,5 +72,11 @@ public class OrderDAO extends AbstractDAO<OrderModel> implements IOrderDAO {
         return query(sql, new OrderMapper());
     }
 
-
+    @Override
+    public void updateStatusOrders(Long id) {
+        String sql = "UPDATE ta_aut_orders \n" +
+                "set I_STATUS = '1'\n" +
+                "WHERE ta_aut_orders.I_ID = ?;";
+        update(sql, id);
+    }
 }

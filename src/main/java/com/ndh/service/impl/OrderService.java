@@ -25,4 +25,11 @@ public class OrderService implements IOrderService {
     public List<OrderModel> getConfirmOrders() {
         return orderDAO.getConfirmOrders();
     }
+
+    @Override
+    public void updateStatusOrders(Long id) {
+        orderDAO.updateStatusOrders(id);
+    }
+
+
 }

@@ -9,4 +9,6 @@ public interface IOrderService {
 
     List<OrderModel> getUnconfirmOrders();
     List<OrderModel> getConfirmOrders();
+
+    void updateStatusOrders(Long id);
 }

@@ -42,3 +42,28 @@
         </div>
     </div>
 </div>
+<script>
+  $(document).ready(function() {
+
+    $(".btn-accept").click(function() {
+        let id = $(this).data('id');
+        if (id != null) {
+            let data = { id: id };
+            $.ajax({
+                url: '/Ecommerce/api/admin-orders',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(data), // Corrected the variable name here
+                dataType: 'json',
+                success: function(response) {
+                    window.location.href = "/Ecommerce/admin-orders?type=confirmed";
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    });
+
+  });
+</script
