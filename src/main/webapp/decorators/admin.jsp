@@ -18,11 +18,11 @@
 <div id="wrapper">
 
     <!-- content -->
-    <%@ include file="/common/admin/content.jsp" %>
+    <%@ include file="/common/admin/nav_bar.jsp" %>
     <!-- content -->
 
     <!-- nav -->
-    <%@ include file="/common/admin/nav.jsp" %>
+    <%@ include file="/common/admin/content.jsp" %>
     <!-- nav -->
 
 

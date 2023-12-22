@@ -41,8 +41,10 @@
                         <td>${item.nameProduct}</td>
                         <td class="text-right">${item.priceModel.productPrice}</td>
                         <td>${item.category.categoryName}</td>
-                        <td class="text-center"><a class="btn btn-info" href="#" role="button">Update</a></td>
-                        <td class="text-center"><a class="btn btn-danger" href="#" role="button">Delete</a></td>
+                        <td class="text-center"><a href="#" class="btn btn-info btn-circle">
+                            <i class="fas fa-info-circle"></i>
+                        </a></td>
+                        <td class="text-center"><a href="#" class="btn btn-danger btn-circle"> <i class="fas fa-trash"></i> </a></td>
 
                     </tr>
                 </c:forEach>
@@ -125,8 +127,8 @@
                 '<td>' + item.nameProduct + '</td>' +
                 '<td>' + item.priceModel.productPrice + '</td>' +
                 '<td>' + item.category.categoryName + '</td>' +
-                '<td><a class="btn btn-info" href="#" role="button">Update</a></td>' +
-                '<td><a class="btn btn-danger" href="#" role="button">Delete</a></td>' +
+                '<td class="text-center"><a href="#" class="btn btn-info btn-circle"> <i class="fas fa-info-circle"></i> </a></td>' +
+                '<td class="text-center"><a href="#" class="btn btn-danger btn-circle"> <i class="fas fa-trash"></i> </a></td>' +
                 '</tr>';
 
             tbody.innerHTML += row;

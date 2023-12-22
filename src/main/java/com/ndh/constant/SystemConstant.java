@@ -19,4 +19,6 @@ public class SystemConstant {
 	public static final Integer ACTIVE 		= 	1;
 
 	public static final String 	BRAND 		= "brand";
+
+	public static final String 	REVIEW		= "review";
 }

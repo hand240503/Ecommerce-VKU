@@ -1,7 +1,9 @@
 package com.ndh.mapper;
 
 import com.ndh.constant.dbconstant.OrdersConstant;
+import com.ndh.constant.dbconstant.UserConstant;
 import com.ndh.model.OrderModel;
+import com.ndh.model.UserModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +12,7 @@ public class OrderMapper implements RowMapper<OrderModel> {
     @Override
     public OrderModel mapRow(ResultSet rs) {
         OrderModel orderModel = new OrderModel();
-
+        UserModel userModel = new UserModel();
         try {
             orderModel.setId(rs.getLong(OrdersConstant.I_ID));
 
@@ -19,6 +21,12 @@ public class OrderMapper implements RowMapper<OrderModel> {
             } catch (Exception e) {
 
             }
+
+            try {
+                userModel.setFirstName(rs.getString(UserConstant.T_FIST_NAME));
+                userModel.setLastName(rs.getString(UserConstant.T_LAST_NAME));
+                orderModel.setUserModel(userModel);
+            }catch (Exception e) {}
 
             try {
                 orderModel.setType(rs.getInt(OrdersConstant.I_TYPE_ORDER));
@@ -73,6 +81,7 @@ public class OrderMapper implements RowMapper<OrderModel> {
             }catch (Exception e) {
 
             }
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

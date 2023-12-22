@@ -3,9 +3,11 @@ package com.ndh.controller.web;
 import com.ndh.auth.JwtService;
 import com.ndh.constant.SystemConstant;
 import com.ndh.model.CategoryModel;
+import com.ndh.model.ReviewModel;
 import com.ndh.model.UserModel;
 import com.ndh.service.ICategoryService;
 import com.ndh.service.IProductService;
+import com.ndh.service.IReviewService;
 import com.ndh.service.IUserService;
 
 import javax.inject.Inject;
@@ -34,6 +36,9 @@ public class ProductController extends HttpServlet {
     @Inject
     private ICategoryService categoryService;
 
+    @Inject
+    private IReviewService service;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String token = null;
@@ -61,10 +66,14 @@ public class ProductController extends HttpServlet {
         if (pathInfo != null) {
             try {
                 String idParam = pathInfo.substring(1).trim();
-                if (idParam != null) {
+                if (idParam != null && !idParam.isEmpty()) {
                     int id = Integer.parseInt(idParam);
                     req.setAttribute(SystemConstant.PRODUCT, productService.findById(id));
                     req.setAttribute(SystemConstant.CATEGORY, listCategoryModels);
+                    List<ReviewModel> reviewModels = service.getReviews(id);
+                    if (reviewModels != null) {
+                        req.setAttribute(SystemConstant.REVIEW, reviewModels);
+                    }
                 }
 
             } catch (NumberFormatException e) {

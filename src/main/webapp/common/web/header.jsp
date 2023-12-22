@@ -26,7 +26,7 @@
                                         <div class="header-menu">
                                             <ul>
                                                 <li><a href="#">Thông tin tài khoản</a></li>
-                                                <li><a href="#">Đơn hàng của bạn</a></li>
+                                                <li><a href="<c:url value="/orders"/>">Đơn hàng của bạn</a></li>
                                                 <li><a href="<c:url value="/account?action=logout"/>">Đăng Xuất</a></li>
                                             </ul>
                                         </div>
