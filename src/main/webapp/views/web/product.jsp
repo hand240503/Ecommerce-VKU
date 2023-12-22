@@ -180,6 +180,7 @@
                             timeout: 2000
                         });
                     } else {
+                        $('#message').val('');
                         $.toast({
                             heading: 'Thông báo',
                             text: 'Đã thêm thành công bình luận.',

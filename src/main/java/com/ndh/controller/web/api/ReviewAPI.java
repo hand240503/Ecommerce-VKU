@@ -24,6 +24,8 @@ public class ReviewAPI extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper mapper = new ObjectMapper();
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
         ReviewModel reviewModel = HttpUtil.of(req.getReader()).toModel(ReviewModel.class);
         String token = null;
         Cookie[] cookies = req.getCookies();
@@ -39,6 +41,7 @@ public class ReviewAPI extends HttpServlet {
         if (token != null && jwtService.validateTokenLogin(token)) {
             Long id = jwtService.getIDFromToken(token);
             reviewService.save(reviewModel, id, reviewModel.getIdProduct());
+            mapper.writeValue(resp.getOutputStream(), true);
         } else {
             mapper.writeValue(resp.getOutputStream(), false);
         }
