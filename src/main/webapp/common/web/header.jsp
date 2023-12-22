@@ -140,7 +140,7 @@
                         <li class="megamenu-container"><a
                                 href="<c:url value="/cart" />" class="">Giỏ hàng</a></li>
                         <li class="megamenu-container"><a
-                                href="<c:url value="/" />" class="">Đơn hàng</a></li>
+                                href="<c:url value="/orders"/>" class="">Đơn hàng</a></li>
                         <li class="megamenu-container"><a
                                 href="<c:url value="/" />" class="">Tài khoản của
                             tôi</a></li>

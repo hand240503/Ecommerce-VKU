@@ -19,7 +19,11 @@ public class OrderModel extends AbstractModel<OrderModel> {
     private String address_03;
     private String address_04;
     private String address_05;
+
+    private int status;
     private List<Map<String, Object>> ids;
 
     private UserModel userModel;
+
+    private OrderDetailModel orderDetailModel;
 }

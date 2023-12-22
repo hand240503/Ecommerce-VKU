@@ -1,5 +1,6 @@
 package com.ndh.service;
 
+import com.ndh.dto.OrderDTO;
 import com.ndh.model.OrderModel;
 
 import java.util.List;
@@ -11,4 +12,8 @@ public interface IOrderService {
     List<OrderModel> getConfirmOrders();
 
     void updateStatusOrders(Long id);
+
+    List<OrderModel> getOrders(Long id);
+
+    List<OrderDTO> getOrderDtos(Long id);
 }
