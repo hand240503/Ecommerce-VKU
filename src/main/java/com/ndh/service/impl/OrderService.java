@@ -75,7 +75,10 @@ public class OrderService implements IOrderService {
         return dtos;
     }
 
-
+    @Override
+    public void cancel(Long id) {
+        orderDAO.cancelOrder(id);
+    }
 
 
     @Override

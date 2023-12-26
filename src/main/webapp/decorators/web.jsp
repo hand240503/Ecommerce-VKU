@@ -52,6 +52,8 @@
           href="<c:url value='/template/web/css/jquery.toast.min.css'/>">
     <script src="<c:url value='/template/web/js/jquery.min.js'/>"></script>
     <script src="<c:url value='/template/web/js/jquery.toast.min.js'/>"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.all.min.js"></script>
     <style>
         #cartContainer::-webkit-scrollbar {
             width: 10px;

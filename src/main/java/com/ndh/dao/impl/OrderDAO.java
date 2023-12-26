@@ -91,6 +91,14 @@ public class OrderDAO extends AbstractDAO<OrderModel> implements IOrderDAO {
                 "   INNER JOIN  ta_aut_brand            AS  brand   ON  brand.I_ID              =   product.I_ID_BRAND \n" +
                 "   INNER JOIN  ta_aut_product_images   AS  image   ON  image.I_ID_PRODUCT      =   product.I_ID \n" +
                 "WHERE tauser.I_ID = ?  AND image.I_TYPE = 1;\n";
-        return query(sql,new OrderMapper(),id);
+        return query(sql, new OrderMapper(), id);
+    }
+
+    @Override
+    public void cancelOrder(Long id) {
+        String sql = "UPDATE ECOMMERCE_VKU.ta_aut_orders\n" +
+                "SET I_STATUS = 3\n" +
+                "WHERE I_ID = ?;";
+        update(sql, id);
     }
 }

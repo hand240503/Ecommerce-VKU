@@ -35,14 +35,15 @@
                                     </div>
                                 </div>
                             </c:forEach>
-                            <c:if test="${items.status eq 2}">
+                            <c:if test="${items.status == 2}">
                                 <div class="float-right pb-1">
-                                    <a class="btn btn-sm btn-info" href="#"><i class="icofont-refresh"></i> Hủy đơn</a>
+                                    <a class="btn btn-sm btn-info btn-huydon" data-id="${items.id}" href="#"><i
+                                            class="icofont-refresh"></i> Hủy đơn</a>
                                 </div>
                             </c:if>
                             <div class="clearfix"></div>
 
-                            <c:if test="${items.status eq 1}">
+                            <c:if test="${items.status == 1}">
                                 <div class="row d-flex align-items-center">
                                     <div class="col-md-2">
                                         <p class="text-muted mb-0 small">Track Order</p>
@@ -62,7 +63,7 @@
                                 </div>
                             </c:if>
 
-                            <c:if test="${items.status eq 2}">
+                            <c:if test="${items.status == 2}">
                                 <div class="row d-flex align-items-center">
                                     <div class="col-md-2">
                                         <p class="text-muted mb-0 small">Track Order</p>
@@ -70,7 +71,7 @@
                                     <div class="col-md-10">
                                         <div class="progress" style="height: 6px; border-radius: 16px;">
                                             <div class="progress-bar" role="progressbar"
-                                                 style="width: 30%; border-radius: 16px; background-color: #8c9eff;"
+                                                 style="width: 20%; border-radius: 16px; background-color: #8c9eff;"
                                                  aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <div class="d-flex justify-content-between mt-1">
@@ -82,11 +83,19 @@
                                 </div>
                             </c:if>
 
-                            <div class="d-flex justify-content-between pb-3">
-                                <p class="text-muted font-weight-bold">Mã Đơn Hàng : ${items.id}</p>
-                                <p class="text-muted font-weight-bold"><span
-                                        class="fw-bold me-4">Tổng đơn hàng: </span> ${items.total} </p>
-                            </div>
+                            <c:if test="${items.status == 3}">
+                                <span class="badge badge-secondary">Đã Hủy Đơn</span>
+                            </c:if>
+
+                            <c:if test="${items.status == 1 || items.status == 2}">
+                                <div class="d-flex justify-content-between pb-3">
+                                    <p class="text-muted font-weight-bold">Mã Đơn Hàng : ${items.id}</p>
+                                    <p class="text-muted font-weight-bold">
+                                        <span class="fw-bold me-4">Tổng đơn hàng: </span> ${items.total}
+                                    </p>
+                                </div>
+                            </c:if>
+
                         </c:forEach>
 
                     </div>
@@ -95,3 +104,38 @@
         </div>
     </div>
 </section>
+<script>
+
+    $('.btn-huydon').on('click', function (e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn hủy đơn không?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let id = $(this).data('id');
+                $.ajax({
+                    url: '/Ecommerce/api/orders/cancel',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({id: id}),
+                    dataType: 'json',
+                    success: function (response) {
+                        window.location.reload();
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            } else {
+                console.log('User clicked No');
+            }
+        });
+
+    })
+</script>

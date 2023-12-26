@@ -16,4 +16,6 @@ public interface IOrderDAO extends GenericDAO<OrderModel> {
     void updateStatusOrders(Long id);
 
     List<OrderModel> getOrders(Long id);
+
+    void cancelOrder(Long id);
 }
