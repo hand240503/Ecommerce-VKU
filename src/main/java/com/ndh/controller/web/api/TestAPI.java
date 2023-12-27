@@ -45,7 +45,10 @@ public class TestAPI extends HttpServlet {
 		response.setContentType("application/json");
 		List<OrderModel> models = orderService.getOrders(7L);
 
-		mapper.writeValue(response.getOutputStream(), orderService.getOrderDtos(7L));
+//		mapper.writeValue(response.getOutputStream(), orderService.getOrderDtos(7L));
+
+		mapper.writeValue(response.getOutputStream(), categoryService.findAll());
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

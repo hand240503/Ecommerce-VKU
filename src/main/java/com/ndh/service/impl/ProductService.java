@@ -82,4 +82,6 @@ public class ProductService implements IProductService {
     public int countProducts() {
         return productDAO.countProduct();
     }
+
+
 }

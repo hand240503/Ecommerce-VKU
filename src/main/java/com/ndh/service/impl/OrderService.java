@@ -80,6 +80,31 @@ public class OrderService implements IOrderService {
         orderDAO.cancelOrder(id);
     }
 
+    @Override
+    public int countOrder() {
+        return orderDAO.countOrders();
+    }
+
+    @Override
+    public double getTotal() {
+        List<OrderModel> models = orderDAO.getTotalOrders();
+        double total = 0;
+        for (OrderModel model : models) {
+            total += model.getTotal();
+        }
+        return total;
+    }
+
+    @Override
+    public OrderModel getOrder(Long id) {
+        return orderDAO.getOrder(id);
+    }
+
+    @Override
+    public int countProductSell() {
+        return orderDAO.countProductSell();
+    }
+
 
     @Override
     public List<OrderModel> getOrders(Long id) {

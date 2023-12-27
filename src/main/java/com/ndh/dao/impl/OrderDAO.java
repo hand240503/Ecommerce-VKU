@@ -101,4 +101,35 @@ public class OrderDAO extends AbstractDAO<OrderModel> implements IOrderDAO {
                 "WHERE I_ID = ?;";
         update(sql, id);
     }
+
+    @Override
+    public int countProductSell() {
+        String sql = "SELECT COUNT(details.I_QUANTITY)\n" +
+                "FROM ta_aut_order_details AS details ;";
+        return count(sql);
+    }
+
+    @Override
+    public int countOrders() {
+        String sql = "SELECT COUNT(*)\n" +
+                "FROM ta_aut_orders ;";
+        return count(sql);
+    }
+
+    @Override
+    public List<OrderModel> getTotalOrders() {
+        String sql = "SELECT I_ID ,F_TOTAL \n" +
+                "FROM ta_aut_orders";
+        return query(sql, new OrderMapper());
+    }
+
+    @Override
+    public OrderModel getOrder(Long id) {
+        String sql = "SELECT orders.I_ID , orders.I_STATUS \n" +
+                "FROM ta_aut_orders\tAS\torders\n" +
+                "WHERE orders.I_ID = ?";
+        List<OrderModel> model = query(sql, new OrderMapper(), id);
+        return model.isEmpty() ? null : model.get(0);
+
+    }
 }

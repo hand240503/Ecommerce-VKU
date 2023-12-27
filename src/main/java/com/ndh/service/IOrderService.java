@@ -9,6 +9,7 @@ public interface IOrderService {
     Long save(OrderModel orderModel);
 
     List<OrderModel> getUnconfirmOrders();
+
     List<OrderModel> getConfirmOrders();
 
     void updateStatusOrders(Long id);
@@ -18,4 +19,12 @@ public interface IOrderService {
     List<OrderDTO> getOrderDtos(Long id);
 
     void cancel(Long id);
+
+    int countOrder();
+
+    int countProductSell();
+
+    double getTotal();
+
+    OrderModel getOrder(Long id);
 }

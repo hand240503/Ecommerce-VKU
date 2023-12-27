@@ -1,7 +1,9 @@
 package com.ndh.controller.admin;
 
 import com.ndh.auth.JwtService;
+import com.ndh.constant.SystemConstant;
 import com.ndh.model.UserModel;
+import com.ndh.service.IOrderService;
 import com.ndh.service.IUserService;
 
 import javax.inject.Inject;
@@ -19,6 +21,10 @@ public class AdminHomeController extends HttpServlet {
 
     @Inject
     private IUserService userService;
+
+    @Inject
+    private IOrderService orderService;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -41,6 +47,12 @@ public class AdminHomeController extends HttpServlet {
             }
 
         }
+
+
+        req.setAttribute("numberOrders", orderService.countOrder());
+        req.setAttribute("productSell", orderService.countProductSell());
+        req.setAttribute("total", orderService.getTotal());
+
         req.getRequestDispatcher("views/admin/home.jsp").forward(req, resp);
     }
 }

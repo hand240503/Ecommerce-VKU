@@ -10,7 +10,7 @@ public class CategoryDAO extends AbstractDAO<CategoryModel> implements ICategory
 
 	@Override
 	public List<CategoryModel> findAll() {
-		String sql = "SELECT category.T_CATEGORY_NAME , category.T_CATEGORY_CODE \r\n"
+		String sql = "SELECT category.I_ID , category.T_CATEGORY_NAME , category.T_CATEGORY_CODE \r\n"
 				+ "FROM ta_aut_category category";
 		return query(sql, new CategoryMapper());
 	}
