@@ -9,4 +9,7 @@ public interface IImageDAO extends GenericDAO<ImageModel>{
 	List<ImageModel> findByIdProduct(int id);
 	
 	List<ImageModel> findAll();
+
+
+	Long save(ImageModel imageModel,Long idProduct);
 }

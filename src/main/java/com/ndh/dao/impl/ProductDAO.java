@@ -1,5 +1,6 @@
 package com.ndh.dao.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,13 +9,21 @@ import com.ndh.dao.IProductDAO;
 import com.ndh.mapper.ProductMapper;
 import com.ndh.model.ProductModel;
 import com.ndh.paging.Pageble;
+import com.ndh.service.impl.UUIDService;
+
+import javax.inject.Inject;
 
 public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO {
-
+    @Inject
+    private UUIDService uuidService;
     @Override
-    public Long save(ProductModel model) {
-        String sql = "INSERT INTO ta_aut_product\r\n" + "(T_NAME_PRODUCT, T_DESCRIPTION)\r\n" + "VALUES(?, ?);\r\n";
-        return insert(sql, model.getNameProduct(), model.getDescription());
+    public Long save(ProductModel model,Long idBrand,Long idCategory) {
+        String sql = "INSERT INTO ECOMMERCE_VKU.ta_aut_product\n" +
+                "(T_NAME_PRODUCT, T_DESCRIPTION, I_ID_BRAND, I_ID_CATEGORY, I_TYPE_01, I_TYPE_02, I_TYPE_03, I_TYPE_04, D_CREATED_AT)\n" +
+                "VALUES(?,?,?,?,?,?,?,?,?);";
+        return insert(sql, model.getNameProduct(), model.getDescription(),idBrand,idCategory,
+                model.getIsHot(),model.getIsNew(),model.getIsSaleOff(),model.getIsBestSaler(),
+                new Timestamp(System.currentTimeMillis()));
     }
 
     @Override
@@ -34,13 +43,17 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
                 "\tINNER JOIN \tta_aut_unit \t\t\tAS unit\t\tON \tunit.I_ID  \t\t\t\t=\tprice.I_ID_UNIT  \n" +
                 "\tINNER JOIN \tta_aut_product_images \tAS image\tON\timage.I_ID_PRODUCT \t\t=\tproduct .I_ID \n" +
                 "\tINNER JOIN ta_aut_category \t\t\tAS category ON \tcategory .I_ID \t\t\t=\tproduct.I_ID_CATEGORY \n" +
-                "\tWHERE image.I_TYPE = 1\n" +
+                "\tWHERE (image.I_TYPE = 1\n" +
                 "\tAND (\n" +
                 "\t    SELECT COUNT(*)\n" +
                 "\t    FROM ta_aut_product AS subproduct\n" +
                 "\t    WHERE subproduct.I_ID_CATEGORY = product.I_ID_CATEGORY\n" +
                 "\t      AND subproduct.I_ID <= product.I_ID\n" +
-                "\t) <= 9\n" +
+                "\t) <= 10)\n" +
+                "OR product.I_TYPE_01 = 1\n" +
+                "OR product.I_TYPE_02 = 1\n" +
+                "OR product.I_TYPE_03 = 1\n" +
+                "OR product.I_TYPE_04 = 1\n" +
                 "ORDER BY product.D_CREATED_AT DESC;";
         return query(sql, new ProductMapper());
     }

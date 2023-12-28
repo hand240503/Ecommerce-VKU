@@ -1,7 +1,10 @@
 package com.ndh.controller.admin;
 
 import com.ndh.constant.SystemConstant;
+import com.ndh.model.CategoryModel;
+import com.ndh.model.ImageModel;
 import com.ndh.model.PageModel;
+import com.ndh.model.ProductModel;
 import com.ndh.paging.PageRequest;
 import com.ndh.paging.Pageble;
 import com.ndh.service.ICategoryService;
@@ -84,6 +87,8 @@ public class AdminProductController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         response.setCharacterEncoding("UTF-8");
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
@@ -97,16 +102,17 @@ public class AdminProductController extends HttpServlet {
                 String category = null;
                 String brand = null;
                 String unit = null;
-                boolean isBestSeller = false;
-                boolean isHot = false;
-                boolean isSaleOff = false;
-                boolean isNew = false;
+                String price = null;
+                int isBestSeller = 0;
+                int isHot = 0;
+                int isSaleOff = 0;
+                int isNew = 0;
                 for (FileItem fileItem : fileItems) {
                     if (fileItem.isFormField()) {
 
                         String fieldName = fileItem.getFieldName();
                         String fieldValue = fileItem.getString("UTF-8");
-                        ;
+
 
                         if ("nameProduct".equals(fieldName)) {
                             nameProduct = fieldValue;
@@ -119,32 +125,53 @@ public class AdminProductController extends HttpServlet {
                         } else if ("unit".equals(fieldName)) {
                             unit = fieldValue;
                         } else if ("isBestSellerValue".equals(fieldName)) {
-                            isBestSeller = Boolean.parseBoolean(fieldValue);
+                            isBestSeller = Boolean.parseBoolean(fieldValue) ? 1 : 0;
                         } else if ("isHotValue".equals(fieldName)) {
-                            isHot = Boolean.parseBoolean(fieldValue);
+                            isHot = Boolean.parseBoolean(fieldValue) ? 1 : 0;
                         } else if ("isSaleOffValue".equals(fieldName)) {
-                            isSaleOff = Boolean.parseBoolean(fieldValue);
+                            isSaleOff = Boolean.parseBoolean(fieldValue) ? 1 : 0;
                         } else if ("isNewValue".equals(fieldName)) {
-                            isNew = Boolean.parseBoolean(fieldValue);
+                            isNew = Boolean.parseBoolean(fieldValue) ? 1 : 0;
+                        } else if ("price".equals(fieldName)) {
+                            price = fieldValue;
                         }
+
                     } else {
                         fileName = fileItem.getName();
                         String uploadPath = "C:\\Users\\ADMIN\\eclipse-workspace\\Ecommerce\\src\\main\\webapp\\template\\web\\images\\demos\\demo-4\\products\\" + fileName;
-                        fileItem.write(new File(uploadPath));
+
+                        File existingFile = new File(uploadPath);
+
+                        if (existingFile.exists()) {
+                            existingFile.delete();
+                        }
+                        try {
+                            fileItem.write(new File(uploadPath));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
-                System.out.println("Name Product: " + nameProduct);
-                System.out.println("Description: " + description);
-                System.out.println("Category: " + category);
-                System.out.println("Brand: " + brand);
-                System.out.println("Unit: " + unit);
-                System.out.println("IsBestSeller: " + isBestSeller);
-                System.out.println("IsHot: " + isHot);
-                System.out.println("IsSaleOff: " + isSaleOff);
-                System.out.println("IsNew: " + isNew);
+                Long idCategory = Long.parseLong(category);
+                Long idBrand = Long.parseLong(brand);
+                int idUnit = Integer.parseInt(unit);
 
-                response.sendRedirect(request.getContextPath() +"/admin-products?t=list");
+                double priceValue = Double.parseDouble(price);
+
+                ProductModel productModel = new ProductModel();
+                productModel.setNameProduct(nameProduct);
+                productModel.setDescription(description);
+
+                productModel.setIsNew(isNew);
+                productModel.setIsBestSaler(isBestSeller);
+                productModel.setIsSaleOff(isSaleOff);
+                productModel.setIsHot(isHot);
+                ImageModel imageModel = new ImageModel();
+                imageModel.setPathImageProduct("/template/web/images/demos/demo-4/products/" + fileName);
+
+                productService.insertProduct(productModel, idBrand, idCategory, idUnit, priceValue, imageModel);
+                response.sendRedirect(request.getContextPath() + "/admin-products?t=edit");
             } catch (Exception e) {
                 e.printStackTrace();
                 response.getWriter().println("File upload failed!");
@@ -152,66 +179,18 @@ public class AdminProductController extends HttpServlet {
         } else {
             response.getWriter().println("Invalid request!");
         }
-
-
-//        String nameProduct = request.getParameter("nameProduct");
-//        String description = request.getParameter("description");
-//        String price = request.getParameter("price");
-//
-//        String category = request.getParameter("category");
-//        String brand = request.getParameter("brand");
-//        String unit = request.getParameter("unit");
-//
-//        boolean isBestSeller = Boolean.parseBoolean(request.getParameter("isBestSeller"));
-//        boolean isNew = Boolean.parseBoolean(request.getParameter("isNew"));
-//        boolean isSaleOff = Boolean.parseBoolean(request.getParameter("isSaleOff"));
-//        boolean isHot = Boolean.parseBoolean(request.getParameter("isHot"));
-//
-//        System.out.println("Description: " + description);
-//        System.out.println("Price: " + price);
-//        System.out.println("Category: " + category);
-//        System.out.println("Brand: " + brand);
-//        System.out.println("Unit: " + unit);
-//        System.out.println("IsBestSeller: " + isBestSeller);
-//        System.out.println("IsNew: " + isNew);
-//        System.out.println("IsSaleOff: " + isSaleOff);
-//        System.out.println("IsHot: " + isHot);
-//
-//        if (ServletFileUpload.isMultipartContent(request)) {
-//
-//            DiskFileItemFactory factory = new DiskFileItemFactory();
-//            ServletFileUpload upload = new ServletFileUpload(factory);
-//
-//            try {
-//                List<FileItem> items = upload.parseRequest(request);
-//
-//                if (items != null) {
-//                    response.getWriter().write("Number of files uploaded: " + items.size());
-//
-//                    for (FileItem item : items) {
-//                        if (!item.isFormField()) {
-//                            String fileName = item.getName();
-//
-//                            if (fileName != null && !fileName.isEmpty() && fileName.contains(".")) {
-//                                String uploadPath = "C:\\Users\\ADMIN\\eclipse-workspace\\Ecommerce\\src\\main\\webapp\\template\\web\\images\\demos\\demo-4\\products\\" + fileName;
-//                                File uploadedFile = new File(uploadPath);
-//                                item.write(uploadedFile);
-//                                response.getWriter().write("File uploaded successfully!");
-//                            } else {
-//                                response.getWriter().write("Invalid file name!");
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    response.getWriter().write("No files uploaded!");
-//                }
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();;
-//            }
-//        } else {
-//            response.getWriter().write("No multipart content!");
-//        }
-
     }
+
+    private ProductModel createProductModel(String nameProduct, String description, int isNew, int isBestSeller, int isSaleOff, int isHot) {
+        ProductModel productModel = new ProductModel();
+        productModel.setNameProduct(nameProduct);
+        productModel.setDescription(description);
+        productModel.setIsNew(isNew);
+        productModel.setIsBestSaler(isBestSeller);
+        productModel.setIsSaleOff(isSaleOff);
+        productModel.setIsHot(isHot);
+        return productModel;
+    }
+
+
 }

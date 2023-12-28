@@ -205,7 +205,7 @@
                                 }
                             }'>
                 <c:forEach items="${product}" var="item">
-                    <c:if test="${item.isNew eq 1}">
+                    <c:if test="${item.isNew == 1 || item.isHot == 1}">
                         <div class="product product-2" data-id='${item.id}'>
                             <figure class="product-media">
                                 <a href="<c:url value='/product/${item.id}'/>"> <img

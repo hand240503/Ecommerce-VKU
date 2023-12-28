@@ -4,24 +4,34 @@ import com.ndh.dao.IImageDAO;
 import com.ndh.dao.IProductDAO;
 import com.ndh.dao.impl.ImageDAO;
 import com.ndh.dao.impl.ProductDAO;
+import com.ndh.model.ImageModel;
 import com.ndh.model.ProductModel;
 import com.ndh.paging.Pageble;
+import com.ndh.service.IImageService;
+import com.ndh.service.IPriceService;
 import com.ndh.service.IProductService;
 
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
 public class ProductService implements IProductService {
 
+    @Inject
+    private IProductDAO productDAO;
 
-    private IProductDAO productDAO = new ProductDAO();
+    @Inject
+    private IImageDAO imageDAO;
 
+    @Inject
+    private IPriceService priceService;
 
-    private IImageDAO imageDAO = new ImageDAO();
+    @Inject
+    private IImageService imageService;
 
     @Override
-    public Long save(ProductModel model) {
-        return productDAO.save(model);
+    public Long save(ProductModel model, Long idBrand, Long idCategory) {
+        return productDAO.save(model, idBrand, idCategory);
     }
 
     @Override
@@ -81,6 +91,14 @@ public class ProductService implements IProductService {
     @Override
     public int countProducts() {
         return productDAO.countProduct();
+    }
+
+    @Override
+    public Long insertProduct(ProductModel model, Long idBrand,Long idCategory, int idUnit, double price, ImageModel imageModel) {
+        Long idProduct = save(model, idBrand,idCategory);
+        priceService.save(idProduct, idUnit, price);
+        imageService.save(imageModel, idProduct);
+        return idProduct;
     }
 
 

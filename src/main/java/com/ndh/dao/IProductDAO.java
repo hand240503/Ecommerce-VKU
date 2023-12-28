@@ -7,7 +7,7 @@ import com.ndh.paging.Pageble;
 
 public interface IProductDAO extends GenericDAO<ProductModel> {
 
-    Long save(ProductModel model);
+    Long save(ProductModel model,Long idBrand,Long idCategory);
 
     void update(ProductModel model);
 

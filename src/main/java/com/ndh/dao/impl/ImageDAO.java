@@ -1,5 +1,6 @@
 package com.ndh.dao.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.ndh.dao.IImageDAO;
@@ -24,6 +25,14 @@ public class ImageDAO extends AbstractDAO<ImageModel> implements IImageDAO {
 				+ "	INNER JOIN ta_aut_product product  ON product.I_ID  = image.I_ID_PRODUCT \r\n"
 				+ "ORDER BY image.I_ID_PRODUCT ";
 		return query(sql, new ImageMapper());
+	}
+
+	@Override
+	public Long save(ImageModel imageModel,Long idProduct) {
+		String sql = "INSERT INTO ECOMMERCE_VKU.ta_aut_product_images\n" +
+				"(I_ID_PRODUCT, T_URL_IMAGE, T_DESCRIPTION, D_CREATED_AT, I_TYPE)\n" +
+				"VALUES(?, ?, ?, ?, ?);";
+		return insert(sql,idProduct,imageModel.getPathImageProduct(),imageModel.getDesImage(),new Timestamp(System.currentTimeMillis()),1);
 	}
 
 }
