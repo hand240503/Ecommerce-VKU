@@ -90,6 +90,7 @@ public class OrderService implements IOrderService {
         for (OrderModel model : models) {
             total += model.getTotal();
         }
+
         return total;
     }
 
