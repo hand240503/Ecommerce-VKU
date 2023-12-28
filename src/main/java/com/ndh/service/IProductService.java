@@ -2,6 +2,7 @@ package com.ndh.service;
 
 import java.util.List;
 
+import com.ndh.model.ImageModel;
 import com.ndh.model.ProductModel;
 import com.ndh.paging.Pageble;
 
@@ -10,7 +11,7 @@ public interface IProductService {
 	List<ProductModel> findAll();
 	//-----------------------------This method only use to get data to homepage-----------------------------
 
-	Long save(ProductModel model);
+	Long save(ProductModel model , Long  idCategory,Long idBrand);
 
 	void update(ProductModel model);
 
@@ -29,6 +30,10 @@ public interface IProductService {
 	List<ProductModel> getProductAdmin();
 
 	int countProducts();
+
+	Long insertProduct(ProductModel model, Long idBrand,Long idCategory, int idUnit, double price, ImageModel imageModel);
+
+	void updateProduct(String nameProduct,String des,int idProduct, int idCategory, int idBrand,  int isHot, int isSaleOff, int isNew, int isBestSeller);
 
 
 }

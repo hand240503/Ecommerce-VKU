@@ -42,7 +42,7 @@
                         </div>
                         <!-- End .rating-container -->
 
-                        <div class="product-price">${product.priceModel.productPrice}</div>
+                        <div class="product-price">$${product.priceModel.productPrice}</div>
                         <!-- End .product-price -->
 
                         <div class="product-content">

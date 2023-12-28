@@ -6,8 +6,12 @@ import com.ndh.model.ImageModel;
 
 public interface IImageService {
 
-	List<ImageModel> findByIdProduct(int id);
-	
-	List<ImageModel> findAll();
+    List<ImageModel> findByIdProduct(int id);
+
+    List<ImageModel> findAll();
+
+    Long save(ImageModel imageModel, Long idProduct);
+
+    void update(String url, int id);
 
 }

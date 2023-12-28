@@ -9,18 +9,28 @@ import com.ndh.model.ImageModel;
 import com.ndh.service.IImageService;
 
 public class ImageService implements IImageService {
-	@Inject
-	private IImageDAO imageDAO;
+    @Inject
+    private IImageDAO imageDAO;
 
-	@Override
-	public List<ImageModel> findByIdProduct(int id) {
-		return imageDAO.findByIdProduct(id);
-	}
+    @Override
+    public List<ImageModel> findByIdProduct(int id) {
+        return imageDAO.findByIdProduct(id);
+    }
 
-	@Override
-	public List<ImageModel> findAll() {
+    @Override
+    public List<ImageModel> findAll() {
 
-		return imageDAO.findAll();
-	}
+        return imageDAO.findAll();
+    }
+
+    @Override
+    public Long save(ImageModel imageModel, Long idProduct) {
+        return imageDAO.save(imageModel, idProduct);
+    }
+
+    @Override
+    public void update(String url, int id) {
+        imageDAO.update(url, id);
+    }
 
 }

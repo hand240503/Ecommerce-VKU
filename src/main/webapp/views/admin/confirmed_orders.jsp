@@ -34,7 +34,7 @@
                         <td>${item.address_03}</td>
                         <td>${item.address_04}</td>
                         <td>${item.address_05}</td>
-                        <td><button type="button" class="btn btn-success btn-accept" data-id="${item.id}">Đã xác nhận đơn hàng</button></td>
+                        <td><button type="button" class="btn btn-success btn-accept" data-id="${item.id}">Đã xác nhận</button></td>
                     </tr>
                 </c:forEach>
 
@@ -42,12 +42,3 @@
         </div>
     </div>
 </div>
-<script>
-  $(document).ready(function() {
-
-      $(".btn-accept").click(function() {
-         let id = $(this).data('id');
-
-      });
-  });
-</script

@@ -18,4 +18,6 @@ public class OrderDetailModel extends AbstractModel<OrderDetailModel> {
     private int status;
 
     private String description;
+
+    private ProductModel productModel;
 }

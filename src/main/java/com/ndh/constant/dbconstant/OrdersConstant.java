@@ -23,8 +23,11 @@ public class OrdersConstant {
 
     public static final String T_ADDRESS_05             = "T_ADDRESS_05";
 
+    public static final String I_STATUS                 = "I_STATUS";
+
     public static final String D_CREATED_AT             = "D_CREATED_AT";
 
     public static final String D_MODIFIED_AT            = "D_MODIFIED_AT";
+
 
 }

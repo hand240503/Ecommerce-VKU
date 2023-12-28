@@ -28,6 +28,9 @@
                                                 <li><a href="#">Thông tin tài khoản</a></li>
                                                 <li><a href="<c:url value="/orders"/>">Đơn hàng của bạn</a></li>
                                                 <li><a href="<c:url value="/account?action=logout"/>">Đăng Xuất</a></li>
+                                                <c:if test="${user.role eq 1}">
+                                                    <li><a href="<c:url value="/admin-home"/>">Trang Admin</a></li>
+                                                </c:if>
                                             </ul>
                                         </div>
                                     </div>
@@ -140,7 +143,7 @@
                         <li class="megamenu-container"><a
                                 href="<c:url value="/cart" />" class="">Giỏ hàng</a></li>
                         <li class="megamenu-container"><a
-                                href="<c:url value="/" />" class="">Đơn hàng</a></li>
+                                href="<c:url value="/orders"/>" class="">Đơn hàng</a></li>
                         <li class="megamenu-container"><a
                                 href="<c:url value="/" />" class="">Tài khoản của
                             tôi</a></li>

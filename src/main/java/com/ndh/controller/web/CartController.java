@@ -8,6 +8,7 @@ import com.ndh.constant.SystemConstant;
 import com.ndh.model.CartModel;
 import com.ndh.model.ProductModel;
 import com.ndh.model.UserModel;
+import com.ndh.service.ICategoryService;
 import com.ndh.service.ICookiesService;
 import com.ndh.service.IProductService;
 import com.ndh.service.IUserService;
@@ -33,6 +34,9 @@ public class CartController extends HttpServlet {
 
     @Inject
     private IProductService productService;
+
+    @Inject
+    private ICategoryService categoryService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -96,7 +100,7 @@ public class CartController extends HttpServlet {
                     cartModel.setTotal(productModel.getPriceModel().getProductPrice() * cartModel.getQuantity());
 
                 }
-
+                req.setAttribute(SystemConstant.CATEGORY,categoryService.findAll());
                 req.setAttribute(SystemConstant.PRODUCT, cartModelList);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();

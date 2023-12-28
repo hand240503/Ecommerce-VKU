@@ -41,7 +41,7 @@
                         <td>${item.nameProduct}</td>
                         <td class="text-right">${item.priceModel.productPrice}</td>
                         <td>${item.category.categoryName}</td>
-                        <td class="text-center"><a href="#" class="btn btn-info btn-circle">
+                        <td class="text-center"><a href="<c:url value="/admin-products?t=edit&i=${item.id}"/>" class="btn btn-info btn-circle">
                             <i class="fas fa-info-circle"></i>
                         </a></td>
                         <td class="text-center"><a href="#" class="btn btn-danger btn-circle"> <i class="fas fa-trash"></i> </a></td>
@@ -127,12 +127,12 @@
                 '<td>' + item.nameProduct + '</td>' +
                 '<td>' + item.priceModel.productPrice + '</td>' +
                 '<td>' + item.category.categoryName + '</td>' +
-                '<td class="text-center"><a href="#" class="btn btn-info btn-circle"> <i class="fas fa-info-circle"></i> </a></td>' +
+                '<td class="text-center"><a href="/Ecommerce/admin-products?t=edit&i=' + item.id + '" class="btn btn-info btn-circle"> <i class="fas fa-info-circle"></i> </a></td>' +
                 '<td class="text-center"><a href="#" class="btn btn-danger btn-circle"> <i class="fas fa-trash"></i> </a></td>' +
                 '</tr>';
-
             tbody.innerHTML += row;
         });
+
     }
 
 </script>

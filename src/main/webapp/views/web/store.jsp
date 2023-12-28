@@ -51,7 +51,7 @@
                                                 alt="${item.imageModel.desImage}" class="product-image">
                                         </a>
                                         <div class="product-action">
-                                            <a href="#" class="btn-product btn-cart"><p>add
+                                            <a href="#" data-id="${item.id}" class="btn-product btn-cart btn-add"><p>add
 														to cart</p></a>
                                         </div>
                                     </figure>

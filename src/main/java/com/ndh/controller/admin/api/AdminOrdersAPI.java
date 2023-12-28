@@ -24,7 +24,10 @@ public class AdminOrdersAPI extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         OrderModel orderModel = HttpUtil.of(req.getReader()).toModel(OrderModel.class);
-        orderService.updateStatusOrders(orderModel.getId());
+        orderModel = orderService.getOrder(orderModel.getId());
+        if (orderModel != null && orderModel.getStatus() != 3){
+            orderService.updateStatusOrders(orderModel.getId());
+        }
         mapper.writeValue(resp.getOutputStream(), "{}");
     }
 }
