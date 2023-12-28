@@ -1,7 +1,6 @@
 package com.ndh.controller.admin;
 
 import com.ndh.constant.SystemConstant;
-import com.ndh.model.CategoryModel;
 import com.ndh.model.ImageModel;
 import com.ndh.model.PageModel;
 import com.ndh.model.ProductModel;
@@ -19,8 +18,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @MultipartConfig

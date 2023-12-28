@@ -11,13 +11,13 @@ public interface IProductService {
 	List<ProductModel> findAll();
 	//-----------------------------This method only use to get data to homepage-----------------------------
 
-	Long save(ProductModel model , Long  idCategory,Long idBrand);
+	Long save(ProductModel model , Long  idCategory, Long idBrand);
 
 	void update(ProductModel model);
 
 
 
-	List<ProductModel> findByCategoryCode( Pageble pageble);
+	List<ProductModel> findByCategoryCode(Pageble pageble);
 
 	ProductModel findById(int id);
 	
@@ -31,7 +31,7 @@ public interface IProductService {
 
 	int countProducts();
 
-	Long insertProduct(ProductModel model, Long idBrand,Long idCategory, int idUnit, double price, ImageModel imageModel);
+	Long insertProduct(ProductModel model, Long idBrand, Long idCategory, int idUnit, double price, ImageModel imageModel);
 
 	void updateProduct(String nameProduct,String des,int idProduct, int idCategory, int idBrand,  int isHot, int isSaleOff, int isNew, int isBestSeller);
 

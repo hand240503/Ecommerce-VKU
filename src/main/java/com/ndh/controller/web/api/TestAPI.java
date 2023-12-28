@@ -1,20 +1,15 @@
 package com.ndh.controller.web.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ndh.auth.JwtService;
-import com.ndh.constant.SystemConstant;
-import com.ndh.model.OrderModel;
 import com.ndh.service.*;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/api/test")
 public class TestAPI extends HttpServlet {

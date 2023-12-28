@@ -4,9 +4,7 @@ import com.ndh.dao.IOrderDAO;
 import com.ndh.dto.OrderDTO;
 import com.ndh.dto.OrderDetailDTO;
 import com.ndh.dto.ProductDTO;
-import com.ndh.model.BrandModel;
 import com.ndh.model.OrderModel;
-import com.ndh.model.PriceModel;
 import com.ndh.service.IOrderService;
 
 import javax.inject.Inject;
@@ -17,27 +15,27 @@ public class OrderService implements IOrderService {
     @Inject
     private IOrderDAO orderDAO;
 
-    @Override
+
     public Long save(OrderModel orderModel) {
         return orderDAO.save(orderModel);
     }
 
-    @Override
+
     public List<OrderModel> getUnconfirmOrders() {
         return orderDAO.getUnconfimrOrders();
     }
 
-    @Override
+
     public List<OrderModel> getConfirmOrders() {
         return orderDAO.getConfirmOrders();
     }
 
-    @Override
+
     public void updateStatusOrders(Long id) {
         orderDAO.updateStatusOrders(id);
     }
 
-    @Override
+
     public List<OrderDTO> getOrderDtos(Long id) {
         List<OrderModel> models = orderDAO.getOrders(id);
         List<OrderDTO> dtos = new ArrayList<>();
