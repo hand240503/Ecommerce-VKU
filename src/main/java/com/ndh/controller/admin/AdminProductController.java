@@ -7,9 +7,7 @@ import com.ndh.model.PageModel;
 import com.ndh.model.ProductModel;
 import com.ndh.paging.PageRequest;
 import com.ndh.paging.Pageble;
-import com.ndh.service.ICategoryService;
-import com.ndh.service.IProductService;
-import com.ndh.service.IUnitService;
+import com.ndh.service.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -37,6 +35,15 @@ public class AdminProductController extends HttpServlet {
 
     @Inject
     private IUnitService unitService;
+
+    @Inject
+    private IBrandService brandService;
+
+    @Inject
+    private IPriceService priceService;
+
+    @Inject
+    private IImageService imageService;
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -79,6 +86,17 @@ public class AdminProductController extends HttpServlet {
                 req.setAttribute("unit", unitService.getUnits());
                 view = "/views/admin/addProduct.jsp";
             }
+            if (type.equals("edit")) {
+                String idParam = req.getParameter("i");
+                int idProduct = Integer.parseInt(idParam);
+                req.setAttribute(SystemConstant.CATEGORY, categoryService.findAll());
+                req.setAttribute("unit", unitService.getUnits());
+
+                ProductModel productModel = productService.findById(idProduct);
+                req.setAttribute("brand", brandService.getByCategory(productModel.getCategory().getCategoryCode()));
+                req.setAttribute(SystemConstant.PRODUCT, productModel);
+                view = "/views/admin/editProduct.jsp";
+            }
             req.getRequestDispatcher(view).forward(req, resp);
 
         }
@@ -87,8 +105,7 @@ public class AdminProductController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
+        response.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
@@ -96,6 +113,8 @@ public class AdminProductController extends HttpServlet {
                 ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
 
                 List<FileItem> fileItems = servletFileUpload.parseRequest(request);
+                String action = null;
+                String iParam = null;
                 String nameProduct = null;
                 String description = null;
                 String fileName = null;
@@ -103,6 +122,8 @@ public class AdminProductController extends HttpServlet {
                 String brand = null;
                 String unit = null;
                 String price = null;
+                String idPriceParam = null;
+                String idImageParam = null;
                 int isBestSeller = 0;
                 int isHot = 0;
                 int isSaleOff = 0;
@@ -112,8 +133,6 @@ public class AdminProductController extends HttpServlet {
 
                         String fieldName = fileItem.getFieldName();
                         String fieldValue = fileItem.getString("UTF-8");
-
-
                         if ("nameProduct".equals(fieldName)) {
                             nameProduct = fieldValue;
                         } else if ("description".equals(fieldName)) {
@@ -134,44 +153,76 @@ public class AdminProductController extends HttpServlet {
                             isNew = Boolean.parseBoolean(fieldValue) ? 1 : 0;
                         } else if ("price".equals(fieldName)) {
                             price = fieldValue;
+                        } else if ("action".equals(fieldName)) {
+                            action = fieldValue;
+                        } else if ("iParam".equals(fieldName)) {
+                            iParam = fieldValue;
+                        } else if ("idPrice".equals(fieldName)) {
+                            idPriceParam = fieldValue;
+                        } else if ("image".equals(fieldName)) {
+                            idImageParam = fieldValue;
                         }
 
                     } else {
                         fileName = fileItem.getName();
-                        String uploadPath = "C:\\Users\\ADMIN\\eclipse-workspace\\Ecommerce\\src\\main\\webapp\\template\\web\\images\\demos\\demo-4\\products\\" + fileName;
+                        if (!fileName.isEmpty()) {
+                            String uploadPath = "C:\\Users\\ADMIN\\eclipse-workspace\\Ecommerce\\src\\main\\webapp\\template\\web\\images\\demos\\demo-4\\products\\" + fileName;
 
-                        File existingFile = new File(uploadPath);
+                            File existingFile = new File(uploadPath);
 
-                        if (existingFile.exists()) {
-                            existingFile.delete();
-                        }
-                        try {
-                            fileItem.write(new File(uploadPath));
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            if (existingFile.exists()) {
+                                existingFile.delete();
+                            }
+
+
+                            try {
+                                fileItem.write(new File(uploadPath));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
+                if (action.equals("add")) {
+                    Long idCategory = Long.parseLong(category);
+                    Long idBrand = Long.parseLong(brand);
+                    int idUnit = Integer.parseInt(unit);
 
-                Long idCategory = Long.parseLong(category);
-                Long idBrand = Long.parseLong(brand);
-                int idUnit = Integer.parseInt(unit);
+                    double priceValue = Double.parseDouble(price);
 
-                double priceValue = Double.parseDouble(price);
+                    ProductModel productModel = new ProductModel();
+                    productModel.setNameProduct(nameProduct);
+                    productModel.setDescription(description);
 
-                ProductModel productModel = new ProductModel();
-                productModel.setNameProduct(nameProduct);
-                productModel.setDescription(description);
+                    productModel.setIsNew(isNew);
+                    productModel.setIsBestSaler(isBestSeller);
+                    productModel.setIsSaleOff(isSaleOff);
+                    productModel.setIsHot(isHot);
+                    ImageModel imageModel = new ImageModel();
+                    imageModel.setPathImageProduct("/template/web/images/demos/demo-4/products/" + fileName);
 
-                productModel.setIsNew(isNew);
-                productModel.setIsBestSaler(isBestSeller);
-                productModel.setIsSaleOff(isSaleOff);
-                productModel.setIsHot(isHot);
-                ImageModel imageModel = new ImageModel();
-                imageModel.setPathImageProduct("/template/web/images/demos/demo-4/products/" + fileName);
+                    Long productId = productService.insertProduct(productModel, idBrand, idCategory, idUnit, priceValue, imageModel);
+                    response.sendRedirect(request.getContextPath() + "/admin-products?t=edit&i=" + productId);
+                }
+                if (action.equals("edit")) {
+                    int idProduct = Integer.parseInt(iParam);
+                    int idCategory = Integer.parseInt(category);
+                    int idBrand = Integer.parseInt(brand);
 
-                productService.insertProduct(productModel, idBrand, idCategory, idUnit, priceValue, imageModel);
-                response.sendRedirect(request.getContextPath() + "/admin-products?t=edit");
+                    int idUnit = Integer.parseInt(unit);
+                    double priceValue = Double.parseDouble(price);
+                    int idPrice = Integer.parseInt(idPriceParam);
+                    productService.updateProduct(nameProduct, description, idProduct, idCategory, idBrand, isHot, isSaleOff, isNew, isBestSeller);
+                    priceService.update(idPrice, idUnit, priceValue);
+                    if (!fileName.isEmpty()) {
+                        String path = "/template/web/images/demos/demo-4/products/" + fileName;
+                        int idImage = Integer.parseInt(idImageParam);
+                        imageService.update(path, idImage);
+                    }
+
+                    response.sendRedirect(request.getContextPath() + "/admin-products?t=list&page=1");
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 response.getWriter().println("File upload failed!");
@@ -180,17 +231,5 @@ public class AdminProductController extends HttpServlet {
             response.getWriter().println("Invalid request!");
         }
     }
-
-    private ProductModel createProductModel(String nameProduct, String description, int isNew, int isBestSeller, int isSaleOff, int isHot) {
-        ProductModel productModel = new ProductModel();
-        productModel.setNameProduct(nameProduct);
-        productModel.setDescription(description);
-        productModel.setIsNew(isNew);
-        productModel.setIsBestSaler(isBestSeller);
-        productModel.setIsSaleOff(isSaleOff);
-        productModel.setIsHot(isHot);
-        return productModel;
-    }
-
 
 }

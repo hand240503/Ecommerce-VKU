@@ -24,8 +24,13 @@ public class ImageService implements IImageService {
     }
 
     @Override
-    public Long save(ImageModel imageModel,Long idProduct) {
-        return imageDAO.save(imageModel,idProduct);
+    public Long save(ImageModel imageModel, Long idProduct) {
+        return imageDAO.save(imageModel, idProduct);
+    }
+
+    @Override
+    public void update(String url, int id) {
+        imageDAO.update(url, id);
     }
 
 }

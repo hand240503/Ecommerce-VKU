@@ -33,4 +33,7 @@ public interface IProductService {
 
 	Long insertProduct(ProductModel model, Long idBrand,Long idCategory, int idUnit, double price, ImageModel imageModel);
 
+	void updateProduct(String nameProduct,String des,int idProduct, int idCategory, int idBrand,  int isHot, int isSaleOff, int isNew, int isBestSeller);
+
+
 }

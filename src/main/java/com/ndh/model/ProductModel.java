@@ -35,5 +35,7 @@ public class ProductModel extends AbstractModel<ProductModel> {
 
     private int isSaleOff;
 
+    private Long idBrand;
+
 
 }

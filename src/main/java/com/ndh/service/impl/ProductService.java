@@ -101,5 +101,8 @@ public class ProductService implements IProductService {
         return idProduct;
     }
 
-
+    @Override
+    public void updateProduct(String nameProduct, String des, int idProduct, int idCategory, int idBrand, int isHot, int isSaleOff, int isNew, int isBestSeller) {
+        productDAO.updateProduct(nameProduct, des, idProduct, idCategory, idBrand, isHot,isSaleOff,isNew,isBestSeller);
+    }
 }

@@ -43,11 +43,11 @@ public class TestAPI extends HttpServlet {
 		ObjectMapper mapper = new ObjectMapper();
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
-		List<OrderModel> models = orderService.getOrders(7L);
+//		List<OrderModel> models = orderService.getOrders(7L);
 
 //		mapper.writeValue(response.getOutputStream(), orderService.getOrderDtos(7L));
 
-		mapper.writeValue(response.getOutputStream(), categoryService.findAll());
+		mapper.writeValue(response.getOutputStream(), productService.findById(8));
 
 	}
 

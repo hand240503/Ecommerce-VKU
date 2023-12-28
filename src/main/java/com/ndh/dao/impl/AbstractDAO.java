@@ -1,11 +1,11 @@
 package com.ndh.dao.impl;
 
+import com.ndh.dao.GenericDAO;
+import com.ndh.mapper.RowMapper;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.ndh.dao.GenericDAO;
-import com.ndh.mapper.RowMapper;
 
 public class AbstractDAO<T> implements GenericDAO<T> {
     public Connection getConnection() {
@@ -107,6 +107,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                 try {
                     connection.rollback();
                 } catch (SQLException e1) {
+                    System.out.println(e1.getMessage());
                     e1.printStackTrace();
                 }
             }

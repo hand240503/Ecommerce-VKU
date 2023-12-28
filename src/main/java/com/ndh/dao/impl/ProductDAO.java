@@ -16,13 +16,14 @@ import javax.inject.Inject;
 public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO {
     @Inject
     private UUIDService uuidService;
+
     @Override
-    public Long save(ProductModel model,Long idBrand,Long idCategory) {
+    public Long save(ProductModel model, Long idBrand, Long idCategory) {
         String sql = "INSERT INTO ECOMMERCE_VKU.ta_aut_product\n" +
                 "(T_NAME_PRODUCT, T_DESCRIPTION, I_ID_BRAND, I_ID_CATEGORY, I_TYPE_01, I_TYPE_02, I_TYPE_03, I_TYPE_04, D_CREATED_AT)\n" +
                 "VALUES(?,?,?,?,?,?,?,?,?);";
-        return insert(sql, model.getNameProduct(), model.getDescription(),idBrand,idCategory,
-                model.getIsHot(),model.getIsNew(),model.getIsSaleOff(),model.getIsBestSaler(),
+        return insert(sql, model.getNameProduct(), model.getDescription(), idBrand, idCategory,
+                model.getIsHot(), model.getIsNew(), model.getIsSaleOff(), model.getIsBestSaler(),
                 new Timestamp(System.currentTimeMillis()));
     }
 
@@ -50,6 +51,7 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
                 "\t    WHERE subproduct.I_ID_CATEGORY = product.I_ID_CATEGORY\n" +
                 "\t      AND subproduct.I_ID <= product.I_ID\n" +
                 "\t) <= 10)\n" +
+                "AND product.I_STATUS = 1\n" +
                 "OR product.I_TYPE_01 = 1\n" +
                 "OR product.I_TYPE_02 = 1\n" +
                 "OR product.I_TYPE_03 = 1\n" +
@@ -69,7 +71,7 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
                 "INNER JOIN ta_aut_brand AS brand ON brand.I_ID = product.I_ID_BRAND ";
 
         if (isNotBlank(pageble.getCode())) {
-            sql += "WHERE category.T_CATEGORY_CODE = ?";
+            sql += "WHERE category.T_CATEGORY_CODE = ? AND product.I_STATUS = 1";
         }
 
         if (pageble.getSorter() != null && pageble.getSorter().getBrand() != null && !pageble.getSorter().getBrand().isEmpty()) {
@@ -101,10 +103,9 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
     }
 
 
-
     @Override
     public ProductModel findById(int id) {
-        String sql = "SELECT product.I_ID , product.T_NAME_PRODUCT  , product.T_DESCRIPTION , image.T_URL_IMAGE , image.T_DESCRIPTION , price.F_CURRENT_VALUE , unit.T_UNIT_NAME , category.T_CATEGORY_CODE , category.T_CATEGORY_NAME , product.I_TYPE_01 , product.I_TYPE_02 , product.I_TYPE_03 , product.I_TYPE_04,product.D_CREATED_AT   \n" +
+        String sql = "SELECT product.I_ID , product.I_ID_CATEGORY , product.I_ID_BRAND , unit.I_ID AS ID_UNIT  , image.I_ID AS IMG_ID , price.I_ID AS PRICE_ID , product.T_NAME_PRODUCT  , product.T_DESCRIPTION , image.T_URL_IMAGE , image.T_DESCRIPTION , price.F_CURRENT_VALUE , unit.T_UNIT_NAME , unit.I_RATIO  , category.T_CATEGORY_CODE , category.T_CATEGORY_NAME , product.I_TYPE_01 , product.I_TYPE_02 , product.I_TYPE_03 , product.I_TYPE_04,product.D_CREATED_AT   \n" +
                 "FROM ta_aut_product product \n" +
                 "\tINNER JOIN ta_aut_category \t\t\tAS \t\tcategory \tON \tcategory.I_ID \t\t= product.I_ID_CATEGORY \n" +
                 "\tINNER JOIN ta_aut_price \t\t\tAS\t \tprice \t\tON \tprice.I_ID_PRODUCT  = product.I_ID \n" +
@@ -120,7 +121,7 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
         String sql = "SELECT COUNT(*)\n" +
                 "FROM ta_aut_product product\n" +
                 "\tINNER JOIN ta_aut_category  AS category ON product.I_ID_Category = category.I_ID \n" +
-                "WHERE category.T_CATEGORY_CODE = ?;";
+                "WHERE category.T_CATEGORY_CODE = ? AND product.I_STATUS = 1;";
         return count(sql, categoryCode);
     }
 
@@ -132,7 +133,7 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
                 "\tINNER JOIN ta_aut_price \t\t\tAS\t \tprice \t\tON \tprice.I_ID_PRODUCT  = product.I_ID \n" +
                 "\tINNER JOIN ta_aut_unit \t\t\t\tAS\t\tunit\t\tON \tprice.I_ID_UNIT \t= unit.I_ID \n" +
                 "\tINNER JOIN ta_aut_product_images   \tAS   \timage       ON  image.I_ID_PRODUCT  = product.I_ID \n" +
-                "WHERE product.T_NAME_PRODUCT LIKE ?\n" +
+                "WHERE product.T_NAME_PRODUCT LIKE ? AND product.I_STATUS = 1\n" +
                 "ORDER BY product.D_CREATED_AT DESC\n" +
                 "LIMIT 3;";
         return query(sql, new ProductMapper(), params);
@@ -146,7 +147,7 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
                 "\tINNER JOIN ta_aut_price \t\t\tAS\t \tprice \t\tON \tprice.I_ID_PRODUCT  = product.I_ID \n" +
                 "\tINNER JOIN ta_aut_unit \t\t\t\tAS\t\tunit\t\tON \tprice.I_ID_UNIT \t= unit.I_ID \n" +
                 "\tINNER JOIN ta_aut_product_images   \tAS   \timage       ON  image.I_ID_PRODUCT  = product.I_ID\n" +
-                "WHERE product.I_ID IN( " + params + " )";
+                "WHERE product.I_ID IN( " + params + " ) AND product.I_STATUS = 1";
         return query(sql, new ProductMapper());
     }
 
@@ -163,8 +164,17 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
     @Override
     public int countProduct() {
         String sql = "SELECT COUNT(*)\n" +
-                "FROM ta_aut_product ;";
+                "FROM ta_aut_product \n" +
+                "WHERE  ta_aut_product.I_STATUS = 1;";
         return count(sql);
+    }
+
+    @Override
+    public void updateProduct(String nameProduct, String des, int idProduct, int idCategory, int idBrand, int isHot, int isSaleOff, int isNew, int isBestSeller) {
+        String sql = "UPDATE ECOMMERCE_VKU.ta_aut_product\n" +
+                "SET T_NAME_PRODUCT=?, T_DESCRIPTION=?, I_ID_BRAND=?, I_ID_CATEGORY=?, I_TYPE_01=?, I_TYPE_02=?, I_TYPE_03=?, I_TYPE_04=?, D_MODIFIED_AT=?\n" +
+                "WHERE I_ID=?;\n";
+        update(sql, nameProduct, des, idBrand, idCategory, isHot, isSaleOff, isNew, isBestSeller, new Timestamp(System.currentTimeMillis()),idProduct);
     }
 
     private boolean isNotBlank(String value) {

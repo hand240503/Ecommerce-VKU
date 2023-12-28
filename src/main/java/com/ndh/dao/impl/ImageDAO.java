@@ -9,30 +9,38 @@ import com.ndh.model.ImageModel;
 
 public class ImageDAO extends AbstractDAO<ImageModel> implements IImageDAO {
 
-	@Override
-	public List<ImageModel> findByIdProduct(int id) {
-		String sql = "SELECT image.T_URL_IMAGE , image.T_DESCRIPTION \r\n"
-				+ "FROM ta_aut_product_images image\r\n"
-				+ "	INNER JOIN ta_aut_product product on product.I_ID = image.I_ID_PRODUCT \r\n"
-				+ "WHERE product.I_ID = ?";
-		return query(sql, new ImageMapper(), id);
-	}
+    @Override
+    public List<ImageModel> findByIdProduct(int id) {
+        String sql = "SELECT image.T_URL_IMAGE , image.T_DESCRIPTION \r\n"
+                + "FROM ta_aut_product_images image\r\n"
+                + "	INNER JOIN ta_aut_product product on product.I_ID = image.I_ID_PRODUCT \r\n"
+                + "WHERE product.I_ID = ?";
+        return query(sql, new ImageMapper(), id);
+    }
 
-	@Override
-	public List<ImageModel> findAll() {
-		String sql = "SELECT image.I_ID_PRODUCT  , image.T_URL_IMAGE , image.T_DESCRIPTION \r\n"
-				+ "FROM ta_aut_product_images image\r\n"
-				+ "	INNER JOIN ta_aut_product product  ON product.I_ID  = image.I_ID_PRODUCT \r\n"
-				+ "ORDER BY image.I_ID_PRODUCT ";
-		return query(sql, new ImageMapper());
-	}
+    @Override
+    public List<ImageModel> findAll() {
+        String sql = "SELECT image.I_ID_PRODUCT  , image.T_URL_IMAGE , image.T_DESCRIPTION \r\n"
+                + "FROM ta_aut_product_images image\r\n"
+                + "	INNER JOIN ta_aut_product product  ON product.I_ID  = image.I_ID_PRODUCT \r\n"
+                + "ORDER BY image.I_ID_PRODUCT ";
+        return query(sql, new ImageMapper());
+    }
 
-	@Override
-	public Long save(ImageModel imageModel,Long idProduct) {
-		String sql = "INSERT INTO ECOMMERCE_VKU.ta_aut_product_images\n" +
-				"(I_ID_PRODUCT, T_URL_IMAGE, T_DESCRIPTION, D_CREATED_AT, I_TYPE)\n" +
-				"VALUES(?, ?, ?, ?, ?);";
-		return insert(sql,idProduct,imageModel.getPathImageProduct(),imageModel.getDesImage(),new Timestamp(System.currentTimeMillis()),1);
-	}
+    @Override
+    public Long save(ImageModel imageModel, Long idProduct) {
+        String sql = "INSERT INTO ECOMMERCE_VKU.ta_aut_product_images\n" +
+                "(I_ID_PRODUCT, T_URL_IMAGE, T_DESCRIPTION, D_CREATED_AT, I_TYPE)\n" +
+                "VALUES(?, ?, ?, ?, ?);";
+        return insert(sql, idProduct, imageModel.getPathImageProduct(), imageModel.getDesImage(), new Timestamp(System.currentTimeMillis()), 1);
+    }
+
+    @Override
+    public void update(String url, int id) {
+        String sql = "UPDATE ECOMMERCE_VKU.ta_aut_product_images\n" +
+                "SET T_URL_IMAGE=?, D_MODIFIED_AT=?\n" +
+                "WHERE I_ID=?;\n";
+        update(sql, url, new Timestamp(System.currentTimeMillis()), id);
+    }
 
 }

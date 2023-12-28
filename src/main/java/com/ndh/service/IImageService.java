@@ -12,4 +12,6 @@ public interface IImageService {
 
     Long save(ImageModel imageModel, Long idProduct);
 
+    void update(String url, int id);
+
 }
