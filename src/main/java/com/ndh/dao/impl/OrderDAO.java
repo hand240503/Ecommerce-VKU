@@ -1,6 +1,5 @@
 package com.ndh.dao.impl;
 
-import com.ndh.dao.GenericDAO;
 import com.ndh.dao.IOrderDAO;
 import com.ndh.mapper.OrderMapper;
 import com.ndh.model.OrderModel;

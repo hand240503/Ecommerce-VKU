@@ -1,13 +1,12 @@
 package com.ndh.model;
 
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
 
-@Getter
-@Setter
+@Data
 public class OrderModel extends AbstractModel<OrderModel> {
 
     private Long idUser;
@@ -26,4 +25,5 @@ public class OrderModel extends AbstractModel<OrderModel> {
     private UserModel userModel;
 
     private OrderDetailModel orderDetailModel;
+
 }

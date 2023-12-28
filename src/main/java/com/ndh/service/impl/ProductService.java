@@ -2,8 +2,6 @@ package com.ndh.service.impl;
 
 import com.ndh.dao.IImageDAO;
 import com.ndh.dao.IProductDAO;
-import com.ndh.dao.impl.ImageDAO;
-import com.ndh.dao.impl.ProductDAO;
 import com.ndh.model.ImageModel;
 import com.ndh.model.ProductModel;
 import com.ndh.paging.Pageble;
@@ -94,7 +92,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Long insertProduct(ProductModel model, Long idBrand,Long idCategory, int idUnit, double price, ImageModel imageModel) {
+    public Long insertProduct(ProductModel model, Long idBrand, Long idCategory, int idUnit, double price, ImageModel imageModel) {
         Long idProduct = save(model, idBrand,idCategory);
         priceService.save(idProduct, idUnit, price);
         imageService.save(imageModel, idProduct);

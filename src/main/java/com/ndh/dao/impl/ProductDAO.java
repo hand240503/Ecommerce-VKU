@@ -2,7 +2,6 @@ package com.ndh.dao.impl;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
 
 import com.ndh.dao.IProductDAO;
 
