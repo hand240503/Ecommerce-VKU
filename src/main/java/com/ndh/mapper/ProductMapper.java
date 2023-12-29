@@ -29,6 +29,10 @@ public class ProductMapper implements RowMapper<ProductModel> {
             }
 
             try {
+                model.setStatus(resultSet.getInt("I_STATUS"));
+            }catch (Exception e){}
+
+            try {
                 model.setIdBrand(resultSet.getLong(ProductConstant.I_ID_BRAND));
             }catch (Exception e) {}
 

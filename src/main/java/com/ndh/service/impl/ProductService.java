@@ -93,7 +93,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Long insertProduct(ProductModel model, Long idBrand, Long idCategory, int idUnit, double price, ImageModel imageModel) {
-        Long idProduct = save(model, idBrand,idCategory);
+        Long idProduct = save(model, idBrand, idCategory);
         priceService.save(idProduct, idUnit, price);
         imageService.save(imageModel, idProduct);
         return idProduct;
@@ -101,6 +101,11 @@ public class ProductService implements IProductService {
 
     @Override
     public void updateProduct(String nameProduct, String des, int idProduct, int idCategory, int idBrand, int isHot, int isSaleOff, int isNew, int isBestSeller) {
-        productDAO.updateProduct(nameProduct, des, idProduct, idCategory, idBrand, isHot,isSaleOff,isNew,isBestSeller);
+        productDAO.updateProduct(nameProduct, des, idProduct, idCategory, idBrand, isHot, isSaleOff, isNew, isBestSeller);
+    }
+
+    @Override
+    public void updateStatusProduct(ProductModel productModel) {
+        productDAO.updateStatusProduct(productModel);
     }
 }

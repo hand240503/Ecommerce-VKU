@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Thêm sản phẩm</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Cập nhật sản phẩm</h6>
     </div>
     <c:set var="product" value="${product}" />
     <form class="card-body" id="form-add-product" action="<c:url value="/admin-products?t=edit&i=${product.id}"/>" enctype="multipart/form-data" method="POST">

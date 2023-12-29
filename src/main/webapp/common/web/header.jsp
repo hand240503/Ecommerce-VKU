@@ -25,7 +25,6 @@
                                         <a href="#">Xin chào bạn : ${user.lastName } ${user.firstName}</a>
                                         <div class="header-menu">
                                             <ul>
-                                                <li><a href="#">Thông tin tài khoản</a></li>
                                                 <li><a href="<c:url value="/orders"/>">Đơn hàng của bạn</a></li>
                                                 <li><a href="<c:url value="/account?action=logout"/>">Đăng Xuất</a></li>
                                                 <c:if test="${user.role eq 1}">
@@ -144,9 +143,6 @@
                                 href="<c:url value="/cart" />" class="">Giỏ hàng</a></li>
                         <li class="megamenu-container"><a
                                 href="<c:url value="/orders"/>" class="">Đơn hàng</a></li>
-                        <li class="megamenu-container"><a
-                                href="<c:url value="/" />" class="">Tài khoản của
-                            tôi</a></li>
                     </ul>
                     <!-- End .menu -->
                 </nav>

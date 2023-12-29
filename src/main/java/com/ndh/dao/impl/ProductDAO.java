@@ -9,6 +9,7 @@ import com.ndh.mapper.ProductMapper;
 import com.ndh.model.ProductModel;
 import com.ndh.paging.Pageble;
 import com.ndh.service.impl.UUIDService;
+import com.ndh.sorter.PriceSorter;
 
 import javax.inject.Inject;
 
@@ -71,6 +72,9 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 
         if (isNotBlank(pageble.getCode())) {
             sql += "WHERE category.T_CATEGORY_CODE = ? AND product.I_STATUS = 1";
+        } else {
+            sql += "WHERE product.I_STATUS = 1";
+
         }
 
         if (pageble.getSorter() != null && pageble.getSorter().getBrand() != null && !pageble.getSorter().getBrand().isEmpty()) {
@@ -84,6 +88,30 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
                 sql += "'" + brand + "', ";
             }
             sql = sql.substring(0, sql.length() - 2) + ")";
+        }
+
+        if (pageble.getSorter() != null && pageble.getSorter().getPriceSorters() != null && !pageble.getSorter().getPriceSorters().isEmpty()) {
+            if (isNotBlank(pageble.getCode())) {
+                sql += " AND ";
+            } else {
+                if (sql.contains("WHERE")) {
+                    sql += " AND ";
+                } else {
+                    sql += " WHERE ";
+                }
+            }
+
+            if (pageble.getSorter().getPriceSorters().size() == 1) {
+
+                sql += "price.F_CURRENT_VALUE BETWEEN " + pageble.getSorter().getPriceSorters().get(0).getMin() + " AND " + pageble.getSorter().getPriceSorters().get(0).getMax();
+            } else {
+
+                sql += "(";
+                for (PriceSorter priceSorter : pageble.getSorter().getPriceSorters()) {
+                    sql += "price.F_CURRENT_VALUE BETWEEN " + priceSorter.getMin() + " AND " + priceSorter.getMax() + " OR ";
+                }
+                sql = sql.substring(0, sql.length() - 4) + ")";
+            }
         }
 
         if (pageble.getSorter() != null && isNotBlank(pageble.getSorter().getSortName()) && isNotBlank(pageble.getSorter().getSortBy())) {
@@ -152,11 +180,12 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
 
     @Override
     public List<ProductModel> getProductAdmin() {
-        String sql = "SELECT product.I_ID , product.T_NAME_PRODUCT, product.T_DESCRIPTION  , price.F_CURRENT_VALUE , unit.T_UNIT_NAME ,category.T_CATEGORY_NAME, category.T_CATEGORY_CODE , product.I_TYPE_01 , product.I_TYPE_02 , product.I_TYPE_03 , product.I_TYPE_04  \n" +
+        String sql = "SELECT product.I_ID , product.T_NAME_PRODUCT, product.T_DESCRIPTION  , price.F_CURRENT_VALUE , unit.T_UNIT_NAME ,category.T_CATEGORY_NAME, category.T_CATEGORY_CODE , product.I_TYPE_01 , product.I_TYPE_02 , product.I_TYPE_03 , product.I_TYPE_04 , product.I_STATUS \n" +
                 "FROM ta_aut_product AS product\n" +
                 "\tINNER JOIN \tta_aut_price \t\t\tAS price \tON \tprice.I_ID_PRODUCT \t\t= \tproduct.I_ID \n" +
                 "\tINNER JOIN \tta_aut_unit \t\t\tAS unit\t\tON \tunit.I_ID  \t\t\t\t=\tprice.I_ID_UNIT  \n" +
-                "\tINNER JOIN ta_aut_category \t\t\tAS category ON \tcategory .I_ID \t\t\t=\tproduct.I_ID_CATEGORY";
+                "\tINNER JOIN ta_aut_category \t\t\tAS category ON \tcategory .I_ID \t\t\t=\tproduct.I_ID_CATEGORY\n" +
+                "WHERE product.I_STATUS = 1";
         return query(sql, new ProductMapper());
     }
 
@@ -173,7 +202,15 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
         String sql = "UPDATE ECOMMERCE_VKU.ta_aut_product\n" +
                 "SET T_NAME_PRODUCT=?, T_DESCRIPTION=?, I_ID_BRAND=?, I_ID_CATEGORY=?, I_TYPE_01=?, I_TYPE_02=?, I_TYPE_03=?, I_TYPE_04=?, D_MODIFIED_AT=?\n" +
                 "WHERE I_ID=?;\n";
-        update(sql, nameProduct, des, idBrand, idCategory, isHot, isSaleOff, isNew, isBestSeller, new Timestamp(System.currentTimeMillis()),idProduct);
+        update(sql, nameProduct, des, idBrand, idCategory, isHot, isSaleOff, isNew, isBestSeller, new Timestamp(System.currentTimeMillis()), idProduct);
+    }
+
+    @Override
+    public void updateStatusProduct(ProductModel productModel) {
+        String sql = "UPDATE ECOMMERCE_VKU.ta_aut_product\n" +
+                "SET I_STATUS=?,D_MODIFIED_AT=?\n" +
+                "WHERE I_ID=?;\n";
+        update(sql, 2, new Timestamp(System.currentTimeMillis()), productModel.getId());
     }
 
     private boolean isNotBlank(String value) {

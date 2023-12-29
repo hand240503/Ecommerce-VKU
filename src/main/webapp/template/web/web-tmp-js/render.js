@@ -6,8 +6,9 @@ function loadData(data) {
         data: JSON.stringify(data),
         dataType: 'json',
         success: function (products) {
-            console.log(products)
-            renderProducts(products);
+                console.log(products)
+                renderProducts(products);
+
         },
         error: function (error) {
             console.error("Error:", error);
@@ -44,23 +45,22 @@ function renderProducts(products) {
                                         </h3>
 
                                         <div class="product-price">$${item.priceModel.productPrice}.0</div>
-
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div>
-                                            </div>
-                                            <span class="ratings-text">( 0 Reviews )</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>`;
         });
+    }else{
+        producHtml += `<div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                        <div class="product product-7 text-center">
+                            <p>Không có sản phẩm</p>
+                        </div>
+                    </div>`;
     }
 
     productsContainer.html(producHtml);
 }
 
-let loadSearchProduct = ()=>{
+let loadSearchProduct = () => {
     $.ajax({
         url: '/Ecommerce/api/products',
         type: 'POST',

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -26,6 +27,7 @@ public class PageModel {
     private String sortName;
 
     private String sortBy;
-    private List<String> brand;
+    private List<String> brand = new ArrayList<>();
 
+    private List<String> price = new ArrayList<>();
 }

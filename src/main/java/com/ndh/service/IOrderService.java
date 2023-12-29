@@ -17,6 +17,7 @@ public interface IOrderService {
     List<OrderModel> getOrders(Long id);
 
     List<OrderDTO> getOrderDtos(Long id);
+    List<OrderDTO> getOrderDtosDetails(int id);
 
     void cancel(Long id);
 
