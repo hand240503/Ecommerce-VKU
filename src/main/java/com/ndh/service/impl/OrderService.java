@@ -35,6 +35,42 @@ public class OrderService implements IOrderService {
         orderDAO.updateStatusOrders(id);
     }
 
+    @Override
+    public List<OrderDTO> getOrderDtosDetails(int id) {
+        List<OrderModel> models = orderDAO.getOrderDetails(id);
+        List<OrderDTO> dtos = new ArrayList<>();
+
+        OrderDTO orderDTO = null;
+        Long preId = null;
+
+        for (OrderModel orderModel : models) {
+            if (orderDTO == null || !orderModel.getId().equals(preId)) {
+                orderDTO = new OrderDTO();
+                orderDTO.setId(orderModel.getId());
+                orderDTO.setOrderDetailDTOs(new ArrayList<>());
+
+                preId = orderModel.getId();
+                dtos.add(orderDTO);
+            }
+
+            OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setNameProduct(orderModel.getOrderDetailModel().getProductModel().getNameProduct());
+            productDTO.setPrice(orderModel.getOrderDetailModel().getProductModel().getPriceModel().getProductPrice());
+            productDTO.setNameBrand(orderModel.getOrderDetailModel().getProductModel().getDescription());
+            productDTO.setImagePath(orderModel.getOrderDetailModel().getProductModel().getImageModel().getPathImageProduct());
+
+            orderDetailDTO.setId(orderModel.getOrderDetailModel().getId());
+            orderDetailDTO.setQuantity(orderModel.getOrderDetailModel().getQuantity());
+            orderDetailDTO.setTotalPrice(orderModel.getOrderDetailModel().getTotalPrice());
+            orderDetailDTO.setProductDTO(productDTO);
+            orderDTO.setTotal(orderModel.getTotal());
+            orderDTO.setStatus(orderModel.getStatus());
+            orderDTO.getOrderDetailDTOs().add(orderDetailDTO);
+        }
+        return dtos;
+    }
 
     public List<OrderDTO> getOrderDtos(Long id) {
         List<OrderModel> models = orderDAO.getOrders(id);

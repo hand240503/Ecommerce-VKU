@@ -21,6 +21,7 @@
                     <th>Địa chỉ nhà </th>
                     <th>Số điện thoại *</th>
                     <th>Xác nhập</th>
+                    <th>Chi tiết</th>
                 </tr>
                 </thead>
                 <c:forEach items="${orders}" var="item">
@@ -35,6 +36,7 @@
                         <td>${item.address_04}</td>
                         <td>${item.address_05}</td>
                         <td><button type="button" class="btn btn-warning btn-accept" data-id="${item.id}">Xác nhận đơn hàng</button></td>
+                        <td><a class="btn btn-primary" href="<c:url value="/admin-orders?type=details&i=${item.id}"/>" role="button">Chi tiết</a></td>
                     </tr>
                 </c:forEach>
 
@@ -50,13 +52,13 @@
         if (id != null) {
             let data = { id: id };
             $.ajax({
-                url: '/Ecommerce/api/admin-orders',
+                url: '/Ecommerce/api/admin-delete-products',
                 type: 'PUT',
                 contentType: 'application/json',
-                data: JSON.stringify(data), // Corrected the variable name here
+                data: JSON.stringify(data),
                 dataType: 'json',
                 success: function(response) {
-                    window.location.href = "/Ecommerce/admin-orders?type=confirmed";
+                    window.location.href = "/Ecommerce/admin-products?t=list&page=1";
                 },
                 error: function(error) {
                     console.error('Error:', error);

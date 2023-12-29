@@ -21,6 +21,7 @@
                     <th>Địa chỉ nhà </th>
                     <th>Số điện thoại *</th>
                     <th>Xác nhập</th>
+                    <td>Chi tiết</td>
                 </tr>
                 </thead>
                 <c:forEach items="${orders}" var="item">
@@ -35,6 +36,8 @@
                         <td>${item.address_04}</td>
                         <td>${item.address_05}</td>
                         <td><button type="button" class="btn btn-success btn-accept" data-id="${item.id}">Đã xác nhận</button></td>
+                        <td><a class="btn btn-primary" href="<c:url value="/admin-orders?type=details&i=${item.id}"/>" role="button">Chi tiết</a></td>
+
                     </tr>
                 </c:forEach>
 

@@ -37,5 +37,6 @@ public class ProductModel extends AbstractModel<ProductModel> {
 
     private Long idBrand;
 
+    private int status;
 
 }

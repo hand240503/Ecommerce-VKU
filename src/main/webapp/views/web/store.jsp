@@ -52,7 +52,7 @@
                                         </a>
                                         <div class="product-action">
                                             <a href="#" data-id="${item.id}" class="btn-product btn-cart btn-add"><p>add
-														to cart</p></a>
+                                                to cart</p></a>
                                         </div>
                                     </figure>
                                     <div class="product-body">
@@ -67,9 +67,7 @@
                                         <div class="product-price">$${item.priceModel.productPrice
                                                 }</div>
 
-                                        <div class="ratings-container">
-                                            <span class="ratings-text"></span>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -133,29 +131,59 @@
 
                     <div class="widget widget-collapsible">
                         <h3 class="widget-title">
-                            <a data-toggle="collapse" href="#widget-5" role="button"
-                               aria-expanded="true" aria-controls="widget-5"> Price </a>
-                        </h3>
-                        <!-- End .widget-title -->
+                            <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true"
+                               aria-controls="widget-2">
+                                Price
+                            </a>
+                        </h3><!-- End .widget-title -->
 
-                        <div class="collapse show" id="widget-5">
+                        <div class="collapse show" id="widget-3">
                             <div class="widget-body">
-                                <div class="filter-price">
-                                    <div class="filter-price-text">
-                                        Price Range: <span id="filter-price-range"></span>
-                                    </div>
-                                    <!-- End .filter-price-text -->
+                                <div class="filter-items">
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input price-check" checked
+                                                   id="price-1" data-price="all">
+                                            <label class="custom-control-label" for="price-1">Tất cả</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
 
-                                    <div id="price-slider"></div>
-                                    <!-- End #price-slider -->
-                                </div>
-                                <!-- End .filter-price -->
-                            </div>
-                            <!-- End .widget-body -->
-                        </div>
-                        <!-- End .collapse -->
-                    </div>
-                    <!-- End .widget -->
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input price-check" id="price-2"
+                                                   data-price="0-1000">
+                                            <label class="custom-control-label" for="price-2">Từ 0-1000$</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input price-check" id="price-3"
+                                                   data-price="1000-5000">
+                                            <label class="custom-control-label" for="price-3">Từ 1000-5000$</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input price-check" id="price-5"
+                                                   data-price="5000-10000">
+                                            <label class="custom-control-label" for="price-5">Từ 5000-10000$</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input price-check" id="price-6"
+                                                   data-price="10000-100000">
+                                            <label class="custom-control-label" for="price-6">Trên 10000$</label>
+                                        </div>
+                                    </div>
+
+                                </div><!-- End .filter-items -->
+                            </div><!-- End .widget-body -->
+                        </div><!-- End .collapse -->
+                    </div><!-- End .widget -->
                 </div>
                 <!-- End .sidebar sidebar-shop -->
             </aside>
@@ -203,11 +231,10 @@
                 }, {
                     name: "sortBy",
                     value: sort
+                }, {
+                    name: 'brand',
+                    value: checkedDataBrands
                 }
-                    , {
-                        name: 'brand',
-                        value: checkedDataBrands
-                    }
                 ];
 
                 $.each(pageData, function (i, v) {
@@ -233,17 +260,22 @@
         let data = {};
 
         let checkedDataBrands = getCheckedDataBrand();
+        let checkedDataPrices = getCheckDataPrice();
         if (checkedDataBrands.length === 0) {
             checkedDataBrands = 'all';
         }
+        if (checkedDataPrices.length === 0) {
+            checkedDataPrices = 'all';
+        }
 
         let pageData = [
-            { name: 'page', value: page },
-            { name: 'maxPageItem', value: maxPageItem },
-            { name: 'code', value: code },
-            { name: 'sortName', value: sort },
-            { name: 'sortBy', value: sort },
-            { name: 'brand', value: checkedDataBrands }
+            {name: 'page', value: page},
+            {name: 'maxPageItem', value: maxPageItem},
+            {name: 'code', value: code},
+            {name: 'sortName', value: sort},
+            {name: 'sortBy', value: sort},
+            {name: 'brand', value: checkedDataBrands},
+            {name: 'price', value: checkedDataPrices}
         ];
 
         $.each(pageData, function (i, v) {
@@ -280,9 +312,23 @@
         updateDataAndLoad();
     });
 
-    $('.clean-all').on('click', function () {
+    $('.price-check').on('click', function () {
+        if ($(this).attr('id') === 'price-1') {
+            $('.price-check').not(this).prop('checked', false);
+        } else {
+            $('#price-1').prop('checked', false);
+        }
+
+        updateDataAndLoad();
+    });
+
+    $('.clean-all').on('click', function (e) {
+
         $('.brand-check').prop('checked', false);
+        $('.price-check').prop('checked', false);
+
         $('#brand-1').prop('checked', true);
+        $('#price-1').prop('checked', true);
 
         let checkedDataBrands = getCheckedDataBrand();
 
@@ -299,17 +345,28 @@
     function getCheckedDataBrand() {
         var checkedDataBrands = [];
 
-        // Iterate over all checkboxes with the class 'brand-check'
+
         $('.brand-check').each(function () {
-            // Check if the current checkbox is checked
             if ($(this).prop('checked')) {
-                // Retrieve and store the data-brand value
                 var dataBrandValue = $(this).data('brand');
                 checkedDataBrands.push(dataBrandValue);
             }
         });
 
         return checkedDataBrands;
+    }
+
+    function getCheckDataPrice() {
+        var checkedDataPrice = [];
+        $('.price-check').each(function () {
+            if ($(this).prop('checked')) {
+                var dataBrandValue = $(this).data('price');
+                checkedDataPrice.push(dataBrandValue);
+            }
+        });
+
+        console.log(checkedDataPrice)
+        return checkedDataPrice;
     }
 
 

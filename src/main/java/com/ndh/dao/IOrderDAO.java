@@ -26,4 +26,6 @@ public interface IOrderDAO extends GenericDAO<OrderModel> {
     List<OrderModel> getTotalOrders();
 
     OrderModel getOrder(Long id);
+
+    List<OrderModel> getOrderDetails(int id);
 }

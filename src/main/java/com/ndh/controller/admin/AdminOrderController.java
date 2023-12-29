@@ -21,14 +21,26 @@ public class AdminOrderController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
 
-        if( type.equals("unconfirmed")) {
+        if (type.equals("unconfirmed")) {
             req.setAttribute(SystemConstant.ORDERS, orderService.getUnconfirmOrders());
             req.getRequestDispatcher("/views/admin/unconfirmed_orders.jsp").forward(req, resp);
         }
-        if( type.equals("confirmed")) {
+        if (type.equals("confirmed")) {
             req.setAttribute(SystemConstant.ORDERS, orderService.getConfirmOrders());
             req.getRequestDispatcher("/views/admin/confirmed_orders.jsp").forward(req, resp);
         }
+        if (type.equals("details")) {
+            String iParam = req.getParameter("i");
+            int i = 0;
+            try {
+                i = Integer.parseInt(iParam);
+                req.setAttribute(SystemConstant.ORDERS, orderService.getOrderDtosDetails(i));
+                req.getRequestDispatcher("/views/admin/order.jsp").forward(req, resp);
+            } catch (NumberFormatException e) {
+                resp.sendRedirect(req.getContextPath() + "/admin-orders?type=unconfirmed");
+            }
+        }
+
     }
 }
 

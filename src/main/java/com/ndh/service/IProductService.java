@@ -35,5 +35,5 @@ public interface IProductService {
 
 	void updateProduct(String nameProduct,String des,int idProduct, int idCategory, int idBrand,  int isHot, int isSaleOff, int isNew, int isBestSeller);
 
-
+	void updateStatusProduct(ProductModel productModel);
 }

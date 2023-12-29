@@ -1,6 +1,8 @@
 package com.ndh.controller.web.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ndh.model.PageModel;
 import com.ndh.paging.PageRequest;
 import com.ndh.paging.Pageble;
+import com.ndh.sorter.PriceSorter;
 import com.ndh.sorter.Sorter;
 import com.ndh.service.ICategoryService;
 import com.ndh.service.IImageService;
@@ -77,15 +80,41 @@ public class ProductsAPI extends HttpServlet {
 
             }
         }
-        if(!pageModel.getBrand().isEmpty() && !pageModel.getBrand().get(0).equals("all")){
+        if (!pageModel.getBrand().isEmpty() && !pageModel.getBrand().get(0).equals("all")) {
             sorter.setBrand(pageModel.getBrand());
         }
-        Pageble pageble = new PageRequest(pageModel.getPage(), pageModel.getMaxPageItem(), pageModel.getCode(), sorter);
+        List<String> priceList = pageModel.getPrice();
+        if (priceList != null && !priceList.isEmpty() && !priceList.get(0).equals("all")) {
+            List<PriceSorter> priceSorters = new ArrayList<>();
+            for (String s : priceList) {
+                PriceSorter priceSorter = new PriceSorter();
+                if ("0-1000".equals(s)) {
+                    priceSorter.setMin(0);
+                    priceSorter.setMax(1000);
+                } else if ("1000-5000".equals(s)) {
+                    priceSorter.setMin(1000);
+                    priceSorter.setMax(5000);
+                } else if ("5000-10000".equals(s)) {
+                    priceSorter.setMin(5000);
+                    priceSorter.setMax(10000);
+                } else if ("10000-100000".equals(s)) {
+                    priceSorter.setMin(10000);
+                    priceSorter.setMax(100000);
+                }
+                priceSorters.add(priceSorter);
+            }
+            sorter.setPriceSorters(priceSorters);
+        }
 
+        Pageble pageble = new PageRequest(pageModel.getPage(), pageModel.getMaxPageItem(), pageModel.getCode(), sorter);
         pageModel.setTotalItem(productService.getTotalProductPaging(pageModel.getCode()));
         pageModel.setTotalPage((int) Math.ceil((double) pageModel.getTotalItem() / pageModel.getMaxPageItem()));
+        if (pageModel != null) {
+            mapper.writeValue(response.getOutputStream(), productService.findByCategoryCode(pageble));
+        }else{
+            mapper.writeValue(response.getOutputStream(),"Not found");
+        }
 
-        mapper.writeValue(response.getOutputStream(), productService.findByCategoryCode(pageble));
 
     }
 
