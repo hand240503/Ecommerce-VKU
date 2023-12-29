@@ -12,8 +12,7 @@ public class OrderDAO extends AbstractDAO<OrderModel> implements IOrderDAO {
         String sql = "INSERT INTO ECOMMERCE_VKU.ta_aut_orders\n" +
                 "(I_ID_USER, I_TYPE_ORDER, F_TOTAL, I_ORDER_DETAIL_AMOUNT, T_DESCRIPTION, T_ADDRESS_01, T_ADDRESS_02, T_ADDRESS_03, T_ADDRESS_04, T_ADDRESS_05, I_STATUS, D_CREATED_AT)\n" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);\n";
-
-        return insert(sql, orderModel.getIdUser(), 2, orderModel.getTotal(), 0, "",
+        return insert(sql, orderModel.getIdUser(), 2, orderModel.getTotal(), 0, orderModel.getDescription(),
                 orderModel.getAddress_01(), orderModel.getAddress_02(), orderModel.getAddress_03(),
                 orderModel.getAddress_04(), orderModel.getAddress_05(), 2, orderModel.getCreatedDate());
     }
@@ -78,5 +77,58 @@ public class OrderDAO extends AbstractDAO<OrderModel> implements IOrderDAO {
                 "set I_STATUS = '1'\n" +
                 "WHERE ta_aut_orders.I_ID = ?;";
         update(sql, id);
+    }
+
+    @Override
+    public List<OrderModel> getOrders(Long id) {
+        String sql = "SELECT orders.I_ID , details .I_ID  , product.T_NAME_PRODUCT , price.F_CURRENT_VALUE , details.I_QUANTITY , brand.T_NAME_BRAND   ,details.F_TOTAL_PRICE , image.T_URL_IMAGE ,  orders.F_TOTAL ,orders.I_STATUS \n" +
+                "FROM           ta_aut_orders           AS  orders\n" +
+                "   INNER JOIN  ta_aut_order_details    AS  details ON  orders.I_ID             =   details.I_ID_ORDER \n" +
+                "   INNER JOIN  ta_aut_product          AS  product ON  details.I_ID_PRODUCT    =   product.I_ID \n" +
+                "   INNER JOIN  ta_aut_user             AS  tauser  ON  tauser.I_ID             =   orders.I_ID_USER \n" +
+                "   INNER JOIN  ta_aut_price            AS  price   ON  price.I_ID_PRODUCT      =   product.I_ID \n" +
+                "   INNER JOIN  ta_aut_brand            AS  brand   ON  brand.I_ID              =   product.I_ID_BRAND \n" +
+                "   INNER JOIN  ta_aut_product_images   AS  image   ON  image.I_ID_PRODUCT      =   product.I_ID \n" +
+                "WHERE tauser.I_ID = ?  AND image.I_TYPE = 1;\n";
+        return query(sql, new OrderMapper(), id);
+    }
+
+    @Override
+    public void cancelOrder(Long id) {
+        String sql = "UPDATE ECOMMERCE_VKU.ta_aut_orders\n" +
+                "SET I_STATUS = 3\n" +
+                "WHERE I_ID = ?;";
+        update(sql, id);
+    }
+
+    @Override
+    public int countProductSell() {
+        String sql = "SELECT COUNT(details.I_QUANTITY)\n" +
+                "FROM ta_aut_order_details AS details ;";
+        return count(sql);
+    }
+
+    @Override
+    public int countOrders() {
+        String sql = "SELECT COUNT(*)\n" +
+                "FROM ta_aut_orders ;";
+        return count(sql);
+    }
+
+    @Override
+    public List<OrderModel> getTotalOrders() {
+        String sql = "SELECT I_ID ,F_TOTAL \n" +
+                "FROM ta_aut_orders";
+        return query(sql, new OrderMapper());
+    }
+
+    @Override
+    public OrderModel getOrder(Long id) {
+        String sql = "SELECT orders.I_ID , orders.I_STATUS \n" +
+                "FROM ta_aut_orders\tAS\torders\n" +
+                "WHERE orders.I_ID = ?";
+        List<OrderModel> model = query(sql, new OrderMapper(), id);
+        return model.isEmpty() ? null : model.get(0);
+
     }
 }
