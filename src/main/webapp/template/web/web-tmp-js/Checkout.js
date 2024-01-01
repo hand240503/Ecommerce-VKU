@@ -53,7 +53,8 @@ function renderProductRows(products) {
         const row = $("<tr>");
         const nameCell = $("<td>").append($("<a>").attr("href", "#").text(product.nameProduct));
         const quantityCell = $("<td>").addClass("text-right").text(product.quantity);
-        const totalCell = $("<td>").text(`$${product.totalPrice.toFixed(2)}`);
+        var total = parseFloat(product.totalPrice);
+        const totalCell = $("<td>").text(`$${total.toFixed(2)}`);
 
         grandTotal += product.totalPrice;
 

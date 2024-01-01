@@ -24,4 +24,8 @@ public interface IUserService {
 
     List<UserModel> getAllUsers();
 
+    void updateProfile(UserModel userModel);
+
+    void updateCountChangePassword(UserModel userModel);
+
 }

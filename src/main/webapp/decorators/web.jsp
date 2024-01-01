@@ -223,6 +223,7 @@
         src="<c:url value='/template/paging/jquery.twbsPagination.js'/>"></script>
 <script
         src="<c:url value='/template/paging/jquery.twbsPagination.min.js'/>"></script>
+<script src="<c:url value='/template/validator/validator.js'/>"></script>
 <script src="<c:url value='/template/web/web-tmp-js/render.js'/>"></script>
 <script src="<c:url value='/template/web/web-tmp-js/SearchInput.js'/>"></script>
 <script src="<c:url value='/template/web/web-tmp-js/Cart.js'/>"></script>

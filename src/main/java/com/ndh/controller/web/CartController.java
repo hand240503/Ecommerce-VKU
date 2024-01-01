@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @WebServlet("/cart")
@@ -97,16 +98,24 @@ public class CartController extends HttpServlet {
                     cartModel.setUrl(productModel.getImageModel().getPathImageProduct());
                     cartModel.setNameProduct(productModel.getNameProduct());
                     cartModel.setPrice(productModel.getPriceModel().getProductPrice());
-                    cartModel.setTotal(productModel.getPriceModel().getProductPrice() * cartModel.getQuantity());
+                    BigDecimal productPrice = BigDecimal.valueOf(productModel.getPriceModel().getProductPrice());
+                    int quantity = cartModel.getQuantity();
+
+
+                    BigDecimal total = productPrice.multiply(new BigDecimal(quantity));
+                    total = total.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+
+                    cartModel.setTotal(total.doubleValue());
+//                    cartModel.setTotal(productModel.getPriceModel().getProductPrice() * cartModel.getQuantity());
 
                 }
-                req.setAttribute(SystemConstant.CATEGORY,categoryService.findAll());
                 req.setAttribute(SystemConstant.PRODUCT, cartModelList);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         }
-
+        req.setAttribute(SystemConstant.CATEGORY,categoryService.findAll());
         req.getRequestDispatcher("views/web/cart.jsp").forward(req, resp);
     }
 

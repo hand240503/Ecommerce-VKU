@@ -41,6 +41,9 @@ pageEncoding="UTF-8"%>
                 <h6 class="collapse-header">Product</h6>
                 <a class="collapse-item" href="<c:url value="/admin-products?t=list&page=1"/>">List Product</a>
                 <a class="collapse-item" href="<c:url value="/admin-products?t=add"/>">Add Product</a>
+                <h6 class="collapse-header">User</h6>
+                <a class="collapse-item" href="<c:url value="/admin-users"/>">List User</a>
+
             </div>
         </div>
     </li>

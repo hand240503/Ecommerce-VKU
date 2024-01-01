@@ -1,6 +1,7 @@
 package com.ndh.dao;
 
 import com.ndh.model.UserModel;
+
 import java.util.List;
 
 public interface IUserDAO {
@@ -14,9 +15,13 @@ public interface IUserDAO {
 
     void addUser(UserModel model);
 
-    void addOTP(Long id,String otp, int status);
+    void addOTP(Long id, String otp, int status);
 
-    void updatePassword(int id,String password, String Hash);
+    void updatePassword(int id, String password, String Hash);
 
     List<UserModel> getAllUsers();
+
+    void updateProfile(UserModel userModel);
+
+    void updateCountChangePassword(UserModel userModel);
 }

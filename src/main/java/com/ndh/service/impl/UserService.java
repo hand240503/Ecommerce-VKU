@@ -87,6 +87,13 @@ public class UserService implements IUserService {
         userDAO.addOTP(id, otp, status);
     }
 
+    @Override
+    public void updateProfile(UserModel userModel) {
+        userDAO.updateProfile(userModel);
+    }
 
-
+    @Override
+    public void updateCountChangePassword(UserModel userModel) {
+        userDAO.updateCountChangePassword(userModel);
+    }
 }

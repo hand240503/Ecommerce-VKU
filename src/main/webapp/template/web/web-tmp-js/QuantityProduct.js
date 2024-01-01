@@ -131,7 +131,7 @@ $(document).ready(function () {
                         pathImageProduct: item.imageModel.pathImageProduct,
                         productPrice: item.priceModel.productPrice,
                         quantity: quantity,
-                        totalPrice: item.priceModel.productPrice * quantity,
+                        totalPrice: (item.priceModel.productPrice * quantity).toFixed(2),
                     };
                 });
                 data.map(item => {

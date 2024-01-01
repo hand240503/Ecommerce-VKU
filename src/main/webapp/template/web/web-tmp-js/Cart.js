@@ -52,7 +52,7 @@ function totalPrice(data) {
     for (let i = 0; i < data.length; i++) {
         total += data[i].totalPrice;
     }
-    return total;
+    return total.toFixed(2);
 }
 
 function loadCartAndRunAjax() {
@@ -201,7 +201,7 @@ let renderCart = (data) => {
 
         totalCart += `
                         <div class="dropdown-cart-total">
-                            <span>Total</span> <span class="cart-total-price">$${totalPrice(data).toLocaleString()}</span>
+                            <span>Total</span> <span class="cart-total-price">$${totalPrice(data)}</span>
                         </div>
                         <div class="dropdown-cart-action">
                             <a href="/Ecommerce/cart" class="btn btn-primary">View Cart</a> 

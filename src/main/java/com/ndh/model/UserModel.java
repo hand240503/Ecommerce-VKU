@@ -25,5 +25,20 @@ public class UserModel extends AbstractModel<UserModel> {
 
     private String email;
 
+    private int countChangePassword;
 
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", hashedPassword='" + hashedPassword + '\'' +
+                ", status=" + status +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

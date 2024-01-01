@@ -68,36 +68,36 @@
     </section>
 </div>
 <script>
-    // $('.btn-huydon').on('click', function (e) {
-    //     e.preventDefault();
-    //     Swal.fire({
-    //         title: 'Bạn có chắc chắn muốn hủy đơn không?',
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         confirmButtonText: 'Yes',
-    //         cancelButtonText: 'No'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             let id = $(this).data('id');
-    //             $.ajax({
-    //                 url: '/Ecommerce/api/orders/cancel',
-    //                 type: 'POST',
-    //                 contentType: 'application/json',
-    //                 data: JSON.stringify({id: id}),
-    //                 dataType: 'json',
-    //                 success: function (response) {
-    //                     window.location.href = "/Ecommerce/admin-orders?type=unconfirmed";
-    //                 },
-    //                 error: function (error) {
-    //                     console.error('Error:', error);
-    //                 }
-    //             });
-    //         } else {
-    //             console.log('User clicked No');
-    //         }
-    //     });
-    //
-    // })
+    $('.btn-huydon').on('click', function (e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn hủy đơn không?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let id = $(this).data('id');
+                $.ajax({
+                    url: '/Ecommerce/api/orders/cancel',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({id: id}),
+                    dataType: 'json',
+                    success: function (response) {
+                        window.location.href = "/Ecommerce/admin-orders?type=unconfirmed";
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            } else {
+                console.log('User clicked No');
+            }
+        });
+
+    })
 </script>

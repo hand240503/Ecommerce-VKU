@@ -52,13 +52,13 @@
         if (id != null) {
             let data = { id: id };
             $.ajax({
-                url: '/Ecommerce/api/admin-delete-products',
+                url: '/Ecommerce/api/admin-orders',
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 dataType: 'json',
                 success: function(response) {
-                    window.location.href = "/Ecommerce/admin-products?t=list&page=1";
+                    window.location.href = "/Ecommerce/admin-orders?type=unconfirmed";
                 },
                 error: function(error) {
                     console.error('Error:', error);
@@ -68,4 +68,4 @@
     });
 
   });
-</script
+</script>

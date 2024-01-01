@@ -25,11 +25,13 @@
                                         <a href="#">Xin chào bạn : ${user.lastName } ${user.firstName}</a>
                                         <div class="header-menu">
                                             <ul>
-                                                <li><a href="<c:url value="/orders"/>">Đơn hàng của bạn</a></li>
-                                                <li><a href="<c:url value="/account?action=logout"/>">Đăng Xuất</a></li>
+                                                <li><a href="<c:url value="/orders"/>">Đơn hàng của tôi</a></li>
+                                                <li><a href="<c:url value="/user?t=view"/>">Tài khoản của tôi</a></li>
+
                                                 <c:if test="${user.role eq 1}">
                                                     <li><a href="<c:url value="/admin-home"/>">Trang Admin</a></li>
                                                 </c:if>
+                                                <li><a href="<c:url value="/account?action=logout"/>">Đăng Xuất</a></li>
                                             </ul>
                                         </div>
                                     </div>

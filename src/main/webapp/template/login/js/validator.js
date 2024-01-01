@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Mong muốn của chúng ta
     Validator({
         form: '#register-form',
         formGroupSelector: '.form-group',
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 lastName: $('#lastName').val().trim(),
                 email: $('#email').val().trim(),
             }
-            console.log(data)
             $.ajax({
                 url: '/Ecommerce/api/accounts',
                 type: 'POST',
@@ -38,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (isExit) {
                         $('#userName').siblings('.message').text("Tên đăng nhập đã tồn tại");
                     } else {
-
                         window.location.href = '/Ecommerce/account?action=login';
                     }
                 },

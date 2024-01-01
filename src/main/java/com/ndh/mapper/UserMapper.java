@@ -53,6 +53,11 @@ public class UserMapper implements RowMapper<UserModel> {
             } catch (Exception e) {
 
             }
+
+            try {
+                userModel.setCountChangePassword(rs.getInt("I_COUNT_CHANGE_PASS"));
+            } catch (Exception e) {
+            }
             return userModel;
         } catch (SQLException e) {
             return null;

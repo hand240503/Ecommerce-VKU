@@ -20,10 +20,10 @@ public class ProductDAO extends AbstractDAO<ProductModel> implements IProductDAO
     @Override
     public Long save(ProductModel model, Long idBrand, Long idCategory) {
         String sql = "INSERT INTO ECOMMERCE_VKU.ta_aut_product\n" +
-                "(T_NAME_PRODUCT, T_DESCRIPTION, I_ID_BRAND, I_ID_CATEGORY, I_TYPE_01, I_TYPE_02, I_TYPE_03, I_TYPE_04, D_CREATED_AT)\n" +
+                "(T_NAME_PRODUCT, T_DESCRIPTION, I_ID_BRAND, I_ID_CATEGORY, I_TYPE_01, I_TYPE_02, I_TYPE_03, I_TYPE_04 , I_STATUS , D_CREATED_AT)\n" +
                 "VALUES(?,?,?,?,?,?,?,?,?);";
         return insert(sql, model.getNameProduct(), model.getDescription(), idBrand, idCategory,
-                model.getIsHot(), model.getIsNew(), model.getIsSaleOff(), model.getIsBestSaler(),
+                model.getIsHot(), model.getIsNew(), model.getIsSaleOff(), model.getIsBestSaler(),1,
                 new Timestamp(System.currentTimeMillis()));
     }
 

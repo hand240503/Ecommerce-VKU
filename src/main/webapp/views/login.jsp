@@ -31,6 +31,12 @@
 						</div>
                     </c:if>
 					<div class="form-group">
+						<input type="checkbox" name="rememberMe" id="remember-me"
+							   class="agree-term" /> <label for="remember-me"
+															class="label-agree-term"><span><span></span></span>Remember
+						me</label>
+					</div>
+					<div class="form-group">
 						<a href="<c:url value="/account/identify"/>" class="label-agree-term forgot__link">Forgot your password</a>
 					</div>
 					<div class="form-group form-button">

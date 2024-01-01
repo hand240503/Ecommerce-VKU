@@ -697,38 +697,36 @@
     <div class="products">
         <div class="row justify-content-center">
             <c:forEach items="${product}" var='item' begin="0" end="7">
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-2" data-id="${item.id}">
-                        <figure class="product-media">
-                            <a href="<c:url value='/product/${item.id}'/>"> <img
-                                    src="<c:url value='${item.imageModel.pathImageProduct}'/>"
-                                    alt="Product image" class="product-image">
-                            </a>
+              <c:if test="${item.isBestSaler == 1 || item.isHot == 1 || item.isNew == 1 || item.isSaleOff == 1}">
+                  <div class="col-6 col-md-4 col-lg-3">
+                      <div class="product product-2" data-id="${item.id}">
+                          <figure class="product-media">
+                              <a href="<c:url value='/product/${item.id}'/>"> <img
+                                      src="<c:url value='${item.imageModel.pathImageProduct}'/>"
+                                      alt="Product image" class="product-image">
+                              </a>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart btn-add" data-id="${item.id}" title="Add to cart"><span >add
+                              <div class="product-action">
+                                  <a href="#" class="btn-product btn-cart btn-add" data-id="${item.id}" title="Add to cart"><span >add
 										to cart</span></a>
-                            </div>
-                            <!-- End .product-action -->
-                        </figure>
-                        <!-- End .product-media -->
+                              </div>
+                              <!-- End .product-action -->
+                          </figure>
+                          <!-- End .product-media -->
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Smart Home</a>
-                            </div>
-                            <!-- End .product-cat -->
-                            <h3 class="product-title">
-                                <a href="<c:url value='/product/${item.id}'/>">${item.nameProduct}</a>
-                            </h3>
-                            <!-- End .product-title -->
-                            <div class="product-price">$${item.priceModel.productPrice}</div>
-                            <!-- End .rating-container -->
-                        </div>
-                        <!-- End .product-body -->
-                    </div>
-                    <!-- End .product -->
-                </div>
+                          <div class="product-body">
+                              <h3 class="product-title">
+                                  <a href="<c:url value='/product/${item.id}'/>">${item.nameProduct}</a>
+                              </h3>
+                              <!-- End .product-title -->
+                              <div class="product-price">$${item.priceModel.productPrice}</div>
+                              <!-- End .rating-container -->
+                          </div>
+                          <!-- End .product-body -->
+                      </div>
+                      <!-- End .product -->
+                  </div>
+              </c:if>
             </c:forEach>
             <!-- End .col-sm-6 col-md-4 col-lg-3 -->
         </div>
