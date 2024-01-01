@@ -34,7 +34,8 @@
                                         <input type="submit" class="btn btn-primary px-4" value="Xác minh mật khẩu">
                                     </c:if>
                                     <c:if test="${user.countChangePassword >= 5}">
-                                        <input type="submit" disabled class="btn btn-primary px-4" value="Xác minh mật khẩu">
+                                        <input type="submit" disabled class="btn btn-primary px-4"
+                                               value="Xác minh mật khẩu" id="btnSubmitPassword">
                                     </c:if>
                                 </div>
                             </div>
@@ -48,7 +49,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-
+        let count = 0;
         let id = ${user.id};
         let countChangePassword = ${user.countChangePassword};
         Validator({
@@ -59,11 +60,20 @@
                 Validator.isRequired('#pass', 'Vui lòng nhập mật khẩu'),
             ],
             onSubmit: function () {
+                count += 1;
+                console.log(count)
                 let data = {
                     id: id,
-                    password: $('#pass').val().trim(),
-                    countChangePassword: countChangePassword
+                    password: $('#pass').val().trim()
                 }
+                $.toast({
+                    heading: 'Thông báo',
+                    text: 'Vui lòng đợi trong vài giây',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    position: 'bottom-right',
+                    timeout: 2000
+                });
                 $.ajax({
                     url: '/Ecommerce/api/password',
                     type: 'POST',
@@ -78,7 +88,11 @@
                             }, 2000)
                         }
                         if (!response) {
-                            $('.message').text("Mật khẩu không chính xác, vui lòng thử lại")
+                            if (count < 5) {
+                                $('.message').text("Mật khẩu không chính xác, vui lòng thử lại")
+                            } else {
+                              window.location.reload();
+                            }
                         }
                     },
                     error: function (error) {

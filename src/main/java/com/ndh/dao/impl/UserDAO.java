@@ -62,7 +62,7 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO {
 
     @Override
     public List<UserModel> getAllUsers() {
-        String sql = "SELECT I_ID, T_USERNAME, T_PASSWORD, I_ROLE, T_EMAIL, T_FIST_NAME, T_LAST_NAME, T_TELEPHONE, I_STATUS, T_HASHED_PASSWORD, D_CREATED_AT, D_MODIFIED_AT\n" +
+        String sql = "SELECT I_ID, T_USERNAME, T_PASSWORD, I_ROLE, T_EMAIL, T_FIST_NAME, T_LAST_NAME, T_TELEPHONE, I_STATUS, T_HASHED_PASSWORD, I_COUNT_CHANGE_PASS , D_CREATED_AT, D_MODIFIED_AT\n" +
                 "FROM ecommerce_vku.ta_aut_user;";
         return query(sql, new UserMapper());
     }
@@ -81,5 +81,13 @@ public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO {
                 "SET  I_COUNT_CHANGE_PASS=?\n" +
                 "WHERE I_ID=?;\n";
         update(sql, userModel.getCountChangePassword(), userModel.getId());
+    }
+
+    @Override
+    public void updateStatus(UserModel userModel) {
+        String sql = "UPDATE ECOMMERCE_VKU.ta_aut_user\n" +
+                "SET  I_COUNT_CHANGE_PASS=? , I_STATUS = ?\n" +
+                "WHERE I_ID=?;\n";
+        update(sql,userModel.getCountChangePassword(),userModel.getStatus(),userModel.getId());
     }
 }

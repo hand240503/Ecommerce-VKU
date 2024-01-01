@@ -28,4 +28,6 @@ public interface IUserService {
 
     void updateCountChangePassword(UserModel userModel);
 
+    void updateStatus(UserModel userModel);
+
 }

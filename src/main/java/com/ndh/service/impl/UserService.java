@@ -96,4 +96,9 @@ public class UserService implements IUserService {
     public void updateCountChangePassword(UserModel userModel) {
         userDAO.updateCountChangePassword(userModel);
     }
+
+    @Override
+    public void updateStatus(UserModel userModel) {
+        userDAO.updateStatus(userModel);
+    }
 }

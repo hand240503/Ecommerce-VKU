@@ -51,11 +51,16 @@ public class ChangePasswordAPI extends HttpServlet {
                     userService.addOTP(userModel.getId(), token, 1);
                     mail.sendEmailToGetPassword(userModel.getEmail(), "GET PASSWORD", resetPasswordURL);
                     mapper.writeValue(resp.getOutputStream(), true);
-                    System.out.println("OK");
                 } else {
                     int count = userModel.getCountChangePassword();
-                    userModel.setCountChangePassword(count + 1);
-                    userService.updateCountChangePassword(userModel);
+                    int countChange = count + 1;
+                    userModel.setCountChangePassword(countChange);
+                    if(countChange < 5){
+                        userService.updateCountChangePassword(userModel);
+                    }else{
+                        userModel.setStatus(2);
+                        userService.updateStatus(userModel);
+                    }
                     mapper.writeValue(resp.getOutputStream(), false);
 
 

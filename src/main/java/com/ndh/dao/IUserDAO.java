@@ -24,4 +24,6 @@ public interface IUserDAO {
     void updateProfile(UserModel userModel);
 
     void updateCountChangePassword(UserModel userModel);
+
+    void updateStatus(UserModel userModel);
 }

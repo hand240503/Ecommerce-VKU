@@ -42,7 +42,7 @@ public class TestAPI extends HttpServlet {
 
 //		mapper.writeValue(response.getOutputStream(), orderService.getOrderDtos(7L));
 
-		mapper.writeValue(response.getOutputStream(), productService.getProductAdmin());
+		mapper.writeValue(response.getOutputStream(), userService.getAllUsers());
 
 	}
 

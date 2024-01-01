@@ -18,7 +18,7 @@
                     <th>Last Name</th>
                     <th>First Name</th>
                     <th>Telephone</th>
-<%--                    <th>Status</th>--%>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <c:forEach items="${user}" var="item">
@@ -37,12 +37,14 @@
                         <td>${item.lastName}</td>
                         <td>${item.firstName}</td>
                         <td>${item.phoneNumber}</td>
-<%--                        <c:if test="${item.status == 1}">--%>
-<%--                            <td><span class="badge badge-success">Hoạt động</span></td>--%>
-<%--                        </c:if>--%>
-<%--                        <c:if test="${item.status == 2}">--%>
-<%--                            --%>
-<%--                        </c:if>--%>
+                        <c:if test="${item.status == 1}">
+                            <td><span class="badge badge-success">Hoạt động</span></td>
+                        </c:if>
+                        <c:if test="${ item.status == 2}">
+                            <td>
+                                <button data-id="${item.id}" type="button" class="btn btn-warning btn-sm btnUpdateStatus">Bị khóa</button>
+                            </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
 
@@ -50,3 +52,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        $('.btnUpdateStatus').click(function (e) {
+            e.preventDefault();
+            let id = $(this).data("id");
+            $.ajax({
+                url: '/Ecommerce/api/admin-users',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({id: id}),
+                dataType: 'json',
+                success: function (response) {
+                    window.location.reload();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        })
+    })
+</script>
