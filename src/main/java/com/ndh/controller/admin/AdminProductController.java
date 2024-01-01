@@ -108,9 +108,7 @@ public class AdminProductController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
-
                 ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
-
                 List<FileItem> fileItems = servletFileUpload.parseRequest(request);
                 String action = null;
                 String iParam = null;
